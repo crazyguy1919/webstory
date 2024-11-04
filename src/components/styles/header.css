@@ -1,0 +1,46 @@
+.header-section{
+    height: 65px;
+    background-color: white;
+    width: 100%;
+    padding: 12px 30px;
+    /* position: fixed; */
+    position:sticky;
+    top:0px;
+    z-index: 20;
+
+}
+.sidebar-toggle{
+    border: none;
+    background-color: transparent;
+    font-size: 30px;
+}
+
+.user-button{
+border: none;
+border-radius: 50%;
+width: 40px;
+height: 40px;
+display: flex;
+align-items: center;
+justify-content: center;
+
+}
+.brithness-icon{
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.brithness-icon:hover {
+    transform: rotateZ(360deg);
+    transition: all 1s ease;
+}
+
+
+.dark-icon{
+    transform: rotateZ(135deg);
+}

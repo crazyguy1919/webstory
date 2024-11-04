@@ -1,0 +1,9 @@
+.side-links{
+    border-radius: 10px;
+    padding: 6px 10px;
+}
+
+.sidebar-header{
+    border-right:2px solid #f5f6fa;
+    border-bottom: 2px solid #f5f6fa;
+}
