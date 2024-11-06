@@ -13,13 +13,13 @@ console.log('sidebarfun',isSidebarVisible)
   };
 
   return (
-    <aside className={`sidebar bg-white ${isSidebarVisible ? '' : 'isActive'}`} style={{minHeight: '100vh' }}>
-      <div className="sidebar-header mb-3 px-3 pt-1">
+    <aside className={`sidebar bg-white ${isSidebarVisible ? '' : 'isActive'}`} >
+      <div className="sidebar-header sidebar-logo-1 mb-3 px-3 pt-1">
         <Link to="/dashboard" className="sidebar-logo d-block pb-1">
           <img src={isSidebarVisible ? Logoicon : Logoicon2} alt="Dashboard Logo" className="img-fluid" style={{ width: '90px',height:'55px' }} />
         </Link>
       </div>
-      <ul className="list-unstyled p-3 sidebar-nav-bars">
+      <ul className="list-unstyled pt-3 px-3 sidebar-nav-bars">
         <li className="dropdown">
           <Link
             to="#stories"
@@ -29,9 +29,9 @@ console.log('sidebarfun',isSidebarVisible)
             style={{ textDecoration: 'none' }}
           >
             <Icon icon="ri:table-line" className="me-2" />
-            <span>Stories</span>
+            <span>Stories <Icon icon="weui:arrow-outlined" className="icon text-2xl ms-3"  /></span>  
           </Link>
-          <ul id="stories" className={`collapse list-unstyled ${isSidebarVisible ? "ms-4" : ''}`}>
+          <ul id="stories" className={`collapse list-unstyled ${isSidebarVisible ? "ms-3" : ''}`}>
             <li>
               <Link
                 to="/add-story"

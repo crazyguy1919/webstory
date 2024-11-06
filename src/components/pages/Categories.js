@@ -22,7 +22,7 @@ const categories = [
 const Categories = () => {
   return (
     <div className="categories-section">
-      <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-24 px-3 my-4" >
+      <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4 px-3 mt-5" >
         <h1 className="fw-semibold mb-0">Categories</h1>
         <ul className="d-flex align-items-center gap-2 m-0">
           <Link

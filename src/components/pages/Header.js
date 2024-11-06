@@ -3,10 +3,14 @@ import "../styles/header.css";
 import { Icon } from "@iconify/react";
 import User from "../../assets/images/user.png";
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+
 
 const Header = ({ eventSidebarClick }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLightTheme, setIsLightTheme] = useState(true);
+  const navigate = useNavigate(); 
+
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prevState) => !prevState);
@@ -17,6 +21,13 @@ const Header = ({ eventSidebarClick }) => {
   const toggleTheme = () => {
     setIsLightTheme((prevState) => !prevState);
   };
+
+const Logout = () =>{
+  sessionStorage.removeItem('user');
+  navigate('/');
+}
+
+
   return (
     <div className="header-section">
       <div className="d-flex align-items-center justify-content-between">
@@ -101,7 +112,7 @@ const Header = ({ eventSidebarClick }) => {
                  
                     <Link
                       className="px-0 py-2 d-flex align-items-center gap-3 user-setting-logout2"
-                      to="/"
+                      onClick={Logout} 
                     >
                       <Icon icon="lucide:power" className="icon text-xl" /> Log
                       Out

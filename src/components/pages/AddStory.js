@@ -94,7 +94,7 @@ const SubmissionSection = () => {
               </select>
             </div>
             <div className="col-12 text-center">
-              <div className="d-flex flex-wrap align-items-center gap-3 justify-content-center">
+              <div className="d-flex flex-wrap align-items-center gap-3">
                 <button type="button" className="btn btn-lg btn-primary radius-8 px-4 py-2">Preview</button>
                 <button type="button" className="btn btn-lg btn-outline-success radius-8 px-4 py-2">Submit</button>
               </div>

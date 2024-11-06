@@ -11,12 +11,12 @@ const Login = () => {
     const [success, setSuccess] = useState('');
     const navigate = useNavigate(); 
 
-    // useEffect(() => {
-    //     const sessionUserData = JSON.parse(sessionStorage.getItem('user'));
-    //     if (sessionUserData) {
-    //         navigate('/dashboard');
-    //     }
-    // }, [navigate]);
+    useEffect(() => {
+        const sessionUserData = JSON.parse(sessionStorage.getItem('user'));
+        if (sessionUserData) {
+            navigate('/dashboard');
+        }
+    }, [navigate]);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -56,7 +56,7 @@ console.log('helloo')
 
     return (
         <div className='login-section'>
-<div class="row gy-4 p-md-0 p-2 ms-md-5">
+<div class="row gy-4 p-md-0 p-2 justify-content-center">
       <div class="col-xxl-7 col-md-7">
         <div class="card">
           <div class="card-header text-center">

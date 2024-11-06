@@ -9,3 +9,18 @@
   /* border: 3px solid rgb(18, 208, 59); */
   height: 100%;
 }
+
+body{
+  overflow: hidden;
+  font-family: 'Poppins' !important;
+}
+
+.main-section{
+  overflow: auto;
+  height: 95vh;
+  padding-bottom: 50px;
+}
+.main-section::-webkit-scrollbar{
+  width: 0;
+
+}

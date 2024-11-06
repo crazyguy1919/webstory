@@ -1,5 +1,5 @@
 .header-section{
-    height: 65px;
+    height: 63px;
     background-color: white;
     width: 100%;
     padding: 12px 30px;
@@ -54,12 +54,14 @@ justify-content: center;
 .navbar-search{
     position: relative;
 
+
 }
 
 
 .header-search{
     padding-left: 39px;
     background-color: #f5f6fa;
+    width: 24rem;
 }
 
 
@@ -102,3 +104,9 @@ justify-content: center;
 
 }
 
+
+@media (max-width: 992px){
+    .navbar-search {
+        display: none !important;
+    }
+}

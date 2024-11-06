@@ -2,9 +2,10 @@
     border-radius: 10px;
     padding: 6px 10px;
 }
-
+/* .sidebar-nav-bars a:hover{
+  color: blue !important;
+} */
 .sidebar-header{
-    border-right:2px solid #f5f6fa;
     border-bottom: 2px solid #f5f6fa;
 }
 
@@ -16,8 +17,10 @@
     transition: all 0.2s ease;
 }
 .sidebar{
-    width: 220px;
+    width: 234px;
     transition: all 0.2s ease;
+    border-right:2px solid #f5f6fa;
+
 }
 
 
@@ -28,10 +31,12 @@
 
 .sidebar-nav-bars {
     overflow-y: auto;
-    height: 98vh;
+    height: 95vh;
 
     scrollbar-width: thin; 
     scrollbar-color: none; 
+
+   padding-bottom: 70px !important;
 }
 
 .sidebar-nav-bars::-webkit-scrollbar {
@@ -39,6 +44,18 @@
 }
 
 
+.sidebar-logo-1{
+    position: sticky;
+    top: 0px;
+    background: white;
+    z-index: 33;
+
+}
 
 
 
+
+.sidebar-nav-bars li a:hover{
+    color: rgba(0, 0, 0, 0.566) !important; 
+
+}
