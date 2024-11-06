@@ -106,7 +106,7 @@ const SubmissionSection = () => {
   );
 };
 
-const App = () => {
+const Addtstory = () => {
   return (
     <div className="container my-4">
       <SeoElements />
@@ -120,4 +120,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Addtstory;

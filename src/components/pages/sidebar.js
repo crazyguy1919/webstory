@@ -4,14 +4,22 @@ import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import '../styles/sidebar.css'
 import Logoicon from '../../assets/images/logo.png'
 import Logoicon2 from '../../assets/images/logo-icon.png'
+import { useNavigate } from 'react-router-dom';
+
 
 const Sidebar = ({isSidebarVisible}) => {
+  const navigate = useNavigate(); 
+
   const [activeTab, setActiveTab] = useState('');
 console.log('sidebarfun',isSidebarVisible)
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
 
+  const Logout = (e) => {
+    sessionStorage.removeItem('user');
+    navigate('/'); 
+  };  
   return (
     <aside className={`sidebar bg-white ${isSidebarVisible ? '' : 'isActive'}`} >
       <div className="sidebar-header sidebar-logo-1 mb-3 px-3 pt-1">
@@ -165,10 +173,10 @@ console.log('sidebarfun',isSidebarVisible)
           </Link>
         </li>
         <li>
-          <Link
-            to="/"
+        <Link
+            to="/"  
             className={`d-flex align-items-center text-dark side-links ${activeTab === 'logout' ? 'bg-primary text-white' : ''}`}
-            onClick={() => handleTabClick('logout')}
+            onClick={Logout}
             style={{ textDecoration: 'none', marginTop: '10px' }}
           >
             <Icon icon="ri:logout-circle-line" className="me-2" />

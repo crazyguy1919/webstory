@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import React, { useState,useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, useLocation,useNavigate } from 'react-router-dom';
+
 import './App.css';
 import Sidebar from './components/pages/sidebar';
 import Login from './components/pages/Login';
@@ -20,6 +21,18 @@ import Header from './components/pages/Header';
 import Dashboard from './components/pages/Dashboard'
 
 function AppContent() {
+  const navigate = useNavigate(); 
+
+
+  useEffect(() => {
+    const sessionUserData = JSON.parse(sessionStorage.getItem('user'));
+    if (!sessionUserData) {
+        navigate('/');
+    }
+}, [navigate]);
+
+
+
   const location = useLocation();
   const isLoginPage = location.pathname === '/';
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);

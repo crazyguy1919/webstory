@@ -22,12 +22,11 @@ const Header = ({ eventSidebarClick }) => {
     setIsLightTheme((prevState) => !prevState);
   };
 
-const Logout = () =>{
-  sessionStorage.removeItem('user');
-  navigate('/');
-}
-
-
+  const Logout = (e) => {
+    e.preventDefault(); // Prevents immediate navigation from Link click
+    sessionStorage.removeItem('user');
+    navigate('/'); // Redirects to login after clearing session
+  };
   return (
     <div className="header-section">
       <div className="d-flex align-items-center justify-content-between">
@@ -112,7 +111,7 @@ const Logout = () =>{
                  
                     <Link
                       className="px-0 py-2 d-flex align-items-center gap-3 user-setting-logout2"
-                      onClick={Logout} 
+                      to="/" onClick={Logout}
                     >
                       <Icon icon="lucide:power" className="icon text-xl" /> Log
                       Out
