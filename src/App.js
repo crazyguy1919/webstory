@@ -23,12 +23,18 @@ function AppContent() {
   const location = useLocation();
   const isLoginPage = location.pathname === '/';
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+  
+
+  const eventSidebarClick = () =>{
+    setIsSidebarVisible(!isSidebarVisible)
+    console.log('hellllooooooooadfasf',isSidebarVisible)
+  }
 
   return (
     <div className="app-container" style={{ background: 'rgb(245,246,250)' }}>
-      {!isLoginPage && <Sidebar />}
+      {!isLoginPage && <Sidebar isSidebarVisible={isSidebarVisible}/>}
       <div className="content right-side-section">
-        {!isLoginPage && <Header />}
+        {!isLoginPage && <Header eventSidebarClick={eventSidebarClick}/>}
         <div className="main-section">
           <Routes>
           <Route path="/" element={<Login />} />

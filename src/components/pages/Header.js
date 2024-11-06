@@ -5,15 +5,15 @@ import User from "../../assets/images/user.png";
 import { Link } from 'react-router-dom';
 
 
-const Header = ({ isSidebarVisible, setIsSidebarVisible }) => {
+const Header = ({ eventSidebarClick }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLightTheme, setIsLightTheme] = useState(true);
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prevState) => !prevState);
     console.log('hello')
-    // setIsSidebarVisible(!isSidebarVisible);
-    console.log('hellllllllllo',isSidebarVisible)
+    eventSidebarClick()
+
   };
 
 
@@ -28,7 +28,7 @@ const Header = ({ isSidebarVisible, setIsSidebarVisible }) => {
             <button
               type="button"
               className="sidebar-toggle"
-              onClick={toggleSidebar}
+              onClick={toggleSidebar} 
             >
               {isSidebarOpen ? (
                 <Icon
@@ -44,8 +44,8 @@ const Header = ({ isSidebarVisible, setIsSidebarVisible }) => {
             </button>
           
             <form className="navbar-search">
-              <input type="text" name="search" placeholder="Search" />
-              <Icon icon="ion:search-outline" className="icon" />
+              <input type="text" name="search" placeholder="Search" className="form-control header-search" />
+              <Icon icon="ion:search-outline" className="icon icon-search" />
             </form>
           </div>
         </div>
@@ -59,9 +59,9 @@ const Header = ({ isSidebarVisible, setIsSidebarVisible }) => {
               aria-label="light"
             >
                {isLightTheme ? (
-        <Icon fontSize={24} icon="proicons:brightness" /> // Light theme icon
+        <Icon fontSize={24} icon="proicons:brightness" /> 
       ) : (
-        <Icon icon="ic:outline-brightness-2" className="dark-icon"/> // Dark theme icon
+        <Icon icon="ic:outline-brightness-2" className="dark-icon"/> 
       )}
             </button>
             <div className="dropdown">

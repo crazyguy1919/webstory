@@ -4,15 +4,15 @@ import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import '../styles/sidebar.css'
 import Logoicon from '../../assets/images/logo.png'
 
-const Sidebar = () => {
+const Sidebar = ({isSidebarVisible}) => {
   const [activeTab, setActiveTab] = useState('');
-
+console.log('sidebarfun',isSidebarVisible)
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
 
   return (
-    <aside className="sidebar bg-white" style={{ width: '220px', minHeight: '100vh' }}>
+    <aside className={`sidebar bg-white ${isSidebarVisible ? '' : 'isActive'}`} style={{minHeight: '100vh' }}>
       <div className="sidebar-header mb-3 px-3 pt-1">
         <Link to="/dashboard" className="sidebar-logo d-block pb-1">
           <img src={Logoicon} alt="Dashboard Logo" className="img-fluid" style={{ width: '90px',height:'55px' }} />
@@ -30,7 +30,7 @@ const Sidebar = () => {
             <Icon icon="ri:table-line" className="me-2" />
             <span>Stories</span>
           </Link>
-          <ul id="stories" className="collapse list-unstyled ms-4">
+          <ul id="stories" className={`collapse list-unstyled ${isSidebarVisible ? "ms-4" : ''}`}>
             <li>
               <Link
                 to="/add-story"
@@ -38,7 +38,7 @@ const Sidebar = () => {
                 onClick={() => handleTabClick('add-story')}
                 style={{ textDecoration: 'none' }}
               >
-                <Icon icon="ri:picture-in-picture-exit-fill" className="me-2" /> Add Stories
+                <Icon icon="ri:picture-in-picture-exit-fill" className="me-2" /> {isSidebarVisible ? "Add Stories" : ''}
               </Link>
             </li>
             <li>
@@ -48,7 +48,7 @@ const Sidebar = () => {
                 onClick={() => handleTabClick('edit-story')}
                 style={{ textDecoration: 'none' }}
               >
-                <Icon icon="ri:edit-box-line" className="me-2" /> Edit Stories
+                <Icon icon="ri:edit-box-line" className="me-2" />{isSidebarVisible ? " Edit Stories" : ""}
               </Link>
             </li>
             <li>
@@ -58,7 +58,7 @@ const Sidebar = () => {
                 onClick={() => handleTabClick('published')}
                 style={{ textDecoration: 'none' }}
               >
-                <Icon icon="ri:book-marked-fill" className="me-2" /> Published Stories
+                <Icon icon="ri:book-marked-fill" className="me-2" /> {isSidebarVisible ? "Published Stories" : ""}
               </Link>
             </li>
             <li>
@@ -68,7 +68,7 @@ const Sidebar = () => {
                 onClick={() => handleTabClick('unpublished')}
                 style={{ textDecoration: 'none' }}
               >
-                <Icon icon="ri:book-marked-line" className="me-2" /> Unpublished Stories
+                <Icon icon="ri:book-marked-line" className="me-2" />{isSidebarVisible ? "Unpublished Stories" : ""}
               </Link>
             </li>
           </ul>

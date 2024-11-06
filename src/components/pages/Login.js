@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../styles/login.css'
 import medicovericon from '../../assets/images/logo.png'
 
@@ -9,7 +9,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
-    // const navigate = useNavigate(); 
+    const navigate = useNavigate(); 
 
     // useEffect(() => {
     //     const sessionUserData = JSON.parse(sessionStorage.getItem('user'));
@@ -44,7 +44,7 @@ console.log('helloo')
 
                 sessionStorage.setItem('user', JSON.stringify(userData));
 
-                // navigate('/dashboard');
+                navigate('/dashboard');
             } else {
                 setError(data.message || 'Login failed');
             }
@@ -56,11 +56,6 @@ console.log('helloo')
 
     return (
         <div className='login-section'>
-       
-
-
-        
-
 <div class="row gy-4">
       <div class="col-xxl-7 col-md-7">
         <div class="card">
@@ -82,7 +77,7 @@ console.log('helloo')
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         required
-                        placeholder="000001"
+                        placeholder="Enter User id"
                     />
                 </div>
               </div>
@@ -99,15 +94,17 @@ console.log('helloo')
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
-                        placeholder="*******"
+                        placeholder="Enter Password"
                     />
                 </div>
               </div>
               <div class="col-12 text-end">
                 <a href="#" class="text-decoration-none small">Forgot Password?</a>
               </div>
-              {success && <p className="mt-3 text-success">{success}</p>}
-              {error && <p className="mt-3 text-danger">{error}</p>}
+             <div>
+             {success && <p className="mt-3 text-success">{success}</p>}
+             {error && <p className="mt-3 text-danger">{error}</p>}
+             </div>
               <div class="col-12">
                 <button onClick={handleLogin} class="btn btn-warning-600 w-100">Login</button>
               </div>

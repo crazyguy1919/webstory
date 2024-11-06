@@ -44,3 +44,21 @@ justify-content: center;
 .dark-icon{
     transform: rotateZ(135deg);
 }
+
+.icon-search{
+    position: absolute;
+    top:10px;
+    left: 14px;
+
+}
+.navbar-search{
+    position: relative;
+
+}
+
+.header-search::placeholder{
+    /* padding-left: 24px; */
+}
+.header-search{
+    padding-left: 39px;
+}
