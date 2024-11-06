@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import "../styles/header.css";
 import { Icon } from "@iconify/react";
 import User from "../../assets/images/user.png";
-import { Link } from 'react-router-dom';
-
+import { Link } from "react-router-dom";
 
 const Header = ({ eventSidebarClick }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -11,14 +10,12 @@ const Header = ({ eventSidebarClick }) => {
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prevState) => !prevState);
-    console.log('hello')
-    eventSidebarClick()
-
+    console.log("hello");
+    eventSidebarClick();
   };
 
-
   const toggleTheme = () => {
-    setIsLightTheme(prevState => !prevState);
+    setIsLightTheme((prevState) => !prevState);
   };
   return (
     <div className="header-section">
@@ -28,13 +25,13 @@ const Header = ({ eventSidebarClick }) => {
             <button
               type="button"
               className="sidebar-toggle"
-              onClick={toggleSidebar} 
+              onClick={toggleSidebar}
             >
               {isSidebarOpen ? (
-                <Icon
-                  icon="iconoir:arrow-right"
-                  className="icon text-2xl active"
-                />
+                 <Icon
+                 icon="weui:arrow-outlined"
+                 className="icon text-2xl non-active"
+               />
               ) : (
                 <Icon
                   icon="heroicons:bars-3-solid"
@@ -42,9 +39,14 @@ const Header = ({ eventSidebarClick }) => {
                 />
               )}
             </button>
-          
+
             <form className="navbar-search">
-              <input type="text" name="search" placeholder="Search" className="form-control header-search" />
+              <input
+                type="text"
+                name="search"
+                placeholder="Search"
+                className="form-control header-search"
+              />
               <Icon icon="ion:search-outline" className="icon icon-search" />
             </form>
           </div>
@@ -58,11 +60,11 @@ const Header = ({ eventSidebarClick }) => {
               className="brithness-icon"
               aria-label="light"
             >
-               {isLightTheme ? (
-        <Icon fontSize={24} icon="proicons:brightness" /> 
-      ) : (
-        <Icon icon="ic:outline-brightness-2" className="dark-icon"/> 
-      )}
+              {isLightTheme ? (
+                <Icon fontSize={24} icon="proicons:brightness" />
+              ) : (
+                <Icon icon="ic:outline-brightness-2" className="dark-icon" />
+              )}
             </button>
             <div className="dropdown">
               <button
@@ -73,38 +75,39 @@ const Header = ({ eventSidebarClick }) => {
                 <img src={User} alt="User" className="" />
               </button>
               <div className="dropdown-menu to-top dropdown-menu-sm">
-                <div className="py-12 px-16 radius-8 bg-primary-50 mb-16 d-flex align-items-center justify-content-between gap-2">
+                <div className="d-flex align-items-center justify-content-between gap-2 admin-row1">
                   <div>
-                    <h6 className="text-lg text-primary-light fw-semibold mb-2">
+                    <h6 className="text-lg fw-semibold mb-2">
                       Admin Panel
                     </h6>
                   </div>
-                  <button type="button" className="hover-text-danger">
+                  <button type="button" className="close-icon-profile">
                     <Icon icon="radix-icons:cross-1" className="icon text-xl" />
                   </button>
                 </div>
-                <ul className="to-top-list">
-                  <li>
-                    <a
-                      className="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-primary d-flex align-items-center gap-3"
-                      href="profile.php"
+              
+                
+                    <Link
+                      className="py-2 d-flex align-items-center gap-3 user-setting-logout1"
+                      to="/settings"
                     >
                       <Icon
                         icon="icon-park-outline:setting-two"
                         className="icon text-xl"
                       />{" "}
                       Settings
-                    </a>
-                  </li>
-                  <li>
-                  <Link
-  className="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-danger d-flex align-items-center gap-3"
-  to="/login"
->
-  <Icon icon="lucide:power" className="icon text-xl" /> Log Out
-</Link>
-                  </li>
-                </ul>
+                    </Link>
+                
+                 
+                    <Link
+                      className="px-0 py-2 d-flex align-items-center gap-3 user-setting-logout2"
+                      to="/"
+                    >
+                      <Icon icon="lucide:power" className="icon text-xl" /> Log
+                      Out
+                    </Link>
+                
+                
               </div>
             </div>
             {/* Profile dropdown end */}

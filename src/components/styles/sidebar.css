@@ -19,3 +19,26 @@
     width: 220px;
     transition: all 0.2s ease;
 }
+
+
+
+
+
+
+
+.sidebar-nav-bars {
+    overflow-y: auto;
+    height: 98vh;
+
+    scrollbar-width: thin; 
+    scrollbar-color: none; 
+}
+
+.sidebar-nav-bars::-webkit-scrollbar {
+    width: 8px; 
+}
+
+
+
+
+

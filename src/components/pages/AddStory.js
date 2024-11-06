@@ -3,6 +3,7 @@ import React from 'react';
 const SeoElements = () => {
   return (
     <div className="row gy-4">
+      <h3>Create Stories</h3>
       <div className="col-md-12">
         <div className="card">
           <div className="card-header">

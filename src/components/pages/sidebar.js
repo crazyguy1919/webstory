@@ -3,6 +3,7 @@ import { Icon } from '@iconify/react';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import '../styles/sidebar.css'
 import Logoicon from '../../assets/images/logo.png'
+import Logoicon2 from '../../assets/images/logo-icon.png'
 
 const Sidebar = ({isSidebarVisible}) => {
   const [activeTab, setActiveTab] = useState('');
@@ -15,10 +16,10 @@ console.log('sidebarfun',isSidebarVisible)
     <aside className={`sidebar bg-white ${isSidebarVisible ? '' : 'isActive'}`} style={{minHeight: '100vh' }}>
       <div className="sidebar-header mb-3 px-3 pt-1">
         <Link to="/dashboard" className="sidebar-logo d-block pb-1">
-          <img src={Logoicon} alt="Dashboard Logo" className="img-fluid" style={{ width: '90px',height:'55px' }} />
+          <img src={isSidebarVisible ? Logoicon : Logoicon2} alt="Dashboard Logo" className="img-fluid" style={{ width: '90px',height:'55px' }} />
         </Link>
       </div>
-      <ul className="list-unstyled p-3 ">
+      <ul className="list-unstyled p-3 sidebar-nav-bars">
         <li className="dropdown">
           <Link
             to="#stories"
@@ -106,7 +107,7 @@ console.log('sidebarfun',isSidebarVisible)
             <span>Reports</span>
           </Link>
         </li>
-        <li className="sidebar-menu-group-title mt-4 fw-bold text-uppercase text-secondary">Users</li>
+        {isSidebarVisible ? <li className="sidebar-menu-group-title mt-4 fw-bold text-uppercase text-secondary">Users</li> : ''}
         <li>
           <Link
             to="/saved"
@@ -151,7 +152,7 @@ console.log('sidebarfun',isSidebarVisible)
             <span>Liked</span>
           </Link>
         </li>
-        <li className="sidebar-menu-group-title mt-4 fw-bold text-uppercase text-secondary">Admin</li>
+        {isSidebarVisible ? <li className="sidebar-menu-group-title mt-4 fw-bold text-uppercase text-secondary">Admin</li> : ''}
         <li>
           <Link
             to="/settings"
@@ -165,7 +166,7 @@ console.log('sidebarfun',isSidebarVisible)
         </li>
         <li>
           <Link
-            to="/logout"
+            to="/"
             className={`d-flex align-items-center text-dark side-links ${activeTab === 'logout' ? 'bg-primary text-white' : ''}`}
             onClick={() => handleTabClick('logout')}
             style={{ textDecoration: 'none', marginTop: '10px' }}

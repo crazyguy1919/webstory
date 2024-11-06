@@ -37,7 +37,7 @@ justify-content: center;
 
 .brithness-icon:hover {
     transform: rotateZ(360deg);
-    transition: all 1s ease;
+    transition: all 1s ease-out;
 }
 
 
@@ -56,9 +56,49 @@ justify-content: center;
 
 }
 
-.header-search::placeholder{
-    /* padding-left: 24px; */
-}
+
 .header-search{
     padding-left: 39px;
+    background-color: #f5f6fa;
 }
+
+
+.dropdown-menu.show{
+    width: 312px;
+    border: 0;
+    border-radius: 16px;
+    box-shadow: 0px 13px 30px 10px rgba(46, 45, 116, 0.05);
+    padding: 16px;
+    background-color: white;
+}
+
+.close-icon-profile{
+    border: none;
+    background-color: transparent;
+}
+
+.close-icon-profile:hover{
+    color: red;
+
+}
+.admin-row1{
+   background-color: #e4f1ff;
+   padding: 12px 15px;
+   border-radius: 9px;
+   margin-bottom:22px ;
+}
+
+.user-setting-logout1,.user-setting-logout2{
+    text-decoration: none;
+    color: black;
+}
+.user-setting-logout1:hover{ 
+    color: blue;
+
+}
+
+.user-setting-logout2:hover{ 
+    color: red;
+
+}
+
