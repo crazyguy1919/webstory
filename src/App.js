@@ -29,7 +29,7 @@ function AppContent() {
     if (!sessionUserData) {
         navigate('/');
     }
-  
+ 
 }, [navigate]);
 
 

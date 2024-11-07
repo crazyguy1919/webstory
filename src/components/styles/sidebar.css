@@ -60,8 +60,12 @@
 
 }
 
-@media(max-width:600px){
+@media(max-width:700px){
 .isActive{
     display: block;
+}
+
+.isnotactive{
+    display: none;
 }
 }
