@@ -29,6 +29,9 @@ function AppContent() {
     if (!sessionUserData) {
         navigate('/');
     }
+    else{
+      navigate('/dashboard')
+    }
 }, [navigate]);
 
 

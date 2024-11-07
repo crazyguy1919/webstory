@@ -17,7 +17,7 @@
     transition: all 0.2s ease;
 }
 .sidebar{
-    width: 234px;
+    width: 262px;
     transition: all 0.2s ease;
     border-right:2px solid #f5f6fa;
 
@@ -58,4 +58,10 @@
 .sidebar-nav-bars li a:hover{
     color: rgba(0, 0, 0, 0.566) !important; 
 
+}
+
+@media(max-width:600px){
+.isActive{
+    display: block;
+}
 }
