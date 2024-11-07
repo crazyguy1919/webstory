@@ -101,9 +101,9 @@ console.log('helloo')
               <div class="col-12 text-end">
                 <a href="#" class="text-decoration-none small">Forgot Password?</a>
               </div>
-             <div>
-             {success && <p className="mt-3 text-success">{success}</p>}
-             {error && <p className="mt-3 text-danger">{error}</p>}
+             <div >
+             {/* {success && <p className="text-success">{success}</p>} */}
+             {error && <p className="text-danger">{error}</p>}
              </div>
               <div class="col-12">
                 <button onClick={handleLogin} class="btn btn-warning-600 w-100">Login</button>
