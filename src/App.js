@@ -17,7 +17,6 @@ import Views from './components/pages/Views';
 import Liked from './components/pages/Liked';
 import Settings from './components/pages/Settings';
 import Header from './components/pages/Header';
-
 import Dashboard from './components/pages/Dashboard'
 
 function AppContent() {
@@ -52,7 +51,6 @@ function AppContent() {
         <div className="main-section">
           <Routes>
           <Route path="/" element={<Login />} />
-
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/add-story" element={<AddStory />} />
             <Route path="/edit-story" element={<EditStory />} />
