@@ -2,7 +2,7 @@ import React from 'react';
 
 const SeoElements = () => {
   return (
-    <div className="row gy-4">
+    <div className="row gy-4 mb-4">
       <h3>Create Stories</h3>
       <div className="col-md-12">
         <div className="card">
@@ -82,7 +82,7 @@ const StoryCard = ({ storyTitle }) => {
 
 const SubmissionSection = () => {
   return (
-    <div className="col-md-12">
+    <div className="col-md-12 mt-4">
       <div className="card">
         <div className="card-body">
           <div className="row gy-3">

@@ -22,6 +22,9 @@ import Dashboard from './components/pages/Dashboard'
 function AppContent() {
   const navigate = useNavigate(); 
 
+  const [isLightTheme, setIsLightTheme] = useState(true);
+
+
 
   useEffect(() => {
     const sessionUserData = JSON.parse(sessionStorage.getItem('user'));
@@ -43,11 +46,16 @@ function AppContent() {
     console.log('hellllooooooooadfasf',isSidebarVisible)
   }
 
+
+  const toggleTheme = () => {
+    setIsLightTheme(!isLightTheme);
+  };
+
   return (
-    <div className="app-container" style={{ background: 'rgb(245,246,250)' }}>
+    <div className="app-container" style={{ background:isLightTheme ? 'rgb(245,246,250)' : 'grey' }}>
       {!isLoginPage && <Sidebar isSidebarVisible={isSidebarVisible}/>}
       <div className="content right-side-section">
-        {!isLoginPage && <Header eventSidebarClick={eventSidebarClick}/>}
+        {!isLoginPage && <Header eventSidebarClick={eventSidebarClick} toggleTheme={toggleTheme} isLightTheme={isLightTheme}/>}
         <div className="main-section">
           <Routes>
           <Route path="/" element={<Login />} />

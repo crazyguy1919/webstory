@@ -5,9 +5,9 @@ import '../styles/dashboard.css';
 const StatCard = ({ title, count, icon, bgColor, trendText, trendIcon, trendColor, iconBgColor,indexval}) => {''
   console.log(trendIcon,'adfasdf')
   return (
-    <div className="col p-2 ">
+    <div className="col p-2 m-0">
       <div className={`card shadow-none border ${bgColor} h-100`}>
-        <div className={`card-body card-body-section${indexval+1} p-20`}>
+        <div className={`card-body card-body-section${indexval+1} `}>
           <div className="d-flex flex-wrap align-items-center justify-content-between gap-3">
             <div>
               <p className="fw-medium text-primary-light mb-1">{title}</p>
@@ -17,7 +17,7 @@ const StatCard = ({ title, count, icon, bgColor, trendText, trendIcon, trendColo
               <Icon icon={icon} className="text-white text-2xl mb-0" />
             </div>
           </div>
-          <p className="fw-medium text-sm text-primary-light mt-12 mb-0 d-flex align-items-center gap-2"
+          <p className="fw-medium text-sm text-primary-light mb-0 d-flex align-items-center gap-2 yesterday-content"
            >
             {<span className={`d-inline-flex align-items-center gap-1 ${trendColor}`}>
               <Icon icon={trendIcon} style={{color: trendIcon =="bxs:up-arrow" ? "green" : "red"}} className="text-xs"  /><span style={{color: trendIcon =="bxs:up-arrow" ? "green" : "red"}}>{trendText}</span> 
@@ -51,7 +51,7 @@ const Dashboard = () => {
       trendColor: "text-danger-main"
     },
     {
-      title: "UnPublished Stories",
+      title: "UnPublished",
       count: "12,780",
       icon: "ri-route-line",
       bgColor: "bg-gradient-start-3",
@@ -121,7 +121,7 @@ const Dashboard = () => {
   return (
     <div className='dashboard-section-main'>
       <div className="col-xxl-12">
-      <h3>Dashboard</h3>
+      <h3 className='m-3'>Dashboard</h3>
       <div className="row row-cols-xxxl-4 row-cols-lg-4 row-cols-sm-2 row-cols-1 gy-4">
         {statsData.map((stat, index) => (
           <StatCard

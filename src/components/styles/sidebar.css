@@ -1,6 +1,6 @@
 .side-links{
-    border-radius: 10px;
-    padding: 6px 10px;
+    border-radius: 6px;
+    padding: 10px 10px;
 }
 /* .sidebar-nav-bars a:hover{
   color: blue !important;
@@ -17,8 +17,8 @@
     transition: all 0.2s ease;
 }
 .sidebar{
-    width: 262px;
-    transition: all 0.2s ease;
+    width: 335px;
+    transition: all 0.2s ease-in-out;
     border-right:2px solid #f5f6fa;
 
 }

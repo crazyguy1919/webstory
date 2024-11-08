@@ -6,9 +6,8 @@ import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 
 
-const Header = ({ eventSidebarClick }) => {
+const Header = ({ eventSidebarClick, toggleTheme, isLightTheme }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isLightTheme, setIsLightTheme] = useState(true);
   const navigate = useNavigate(); 
 
 
@@ -18,9 +17,7 @@ const Header = ({ eventSidebarClick }) => {
     eventSidebarClick();
   };
 
-  const toggleTheme = () => {
-    setIsLightTheme((prevState) => !prevState);
-  };
+
 
   const Logout = (e) => {
     e.preventDefault(); // Prevents immediate navigation from Link click
