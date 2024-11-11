@@ -135,7 +135,7 @@ function PhotoEditor() {
         />
       </Button>
 
-      {image && (
+   
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
 
           <div className='d-flex justify-content-center gap-4'>
@@ -296,7 +296,7 @@ function PhotoEditor() {
 
           <canvas ref={canvasRef} style={{ display: 'none' }} />
         </Box>
-      )}
+    
     </Container>
   );
 }
