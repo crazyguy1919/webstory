@@ -5,7 +5,6 @@ const AddCategory = () => {
   return (
     <div className="dashboard-main-body">
       <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-24">
-        <h6 className="fw-semibold mb-0">Add Category</h6>
       </div>
       <div className="mb-40">
         <div className="col-xxl-6 col-md-6 offset-md-3">
