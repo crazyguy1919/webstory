@@ -417,7 +417,7 @@ const onTextDrag = (event) => {
         
         <div {...getRootProps()} className="upload-area">
           <input {...getInputProps()} />
-          <button type="button" className="upload-btn1">Upload Images</button>
+          <Button type="button" variant="primary" className="upload-btn1">Upload Images</Button>
           
         </div>
         <p className="or-text">Or</p>
