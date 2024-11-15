@@ -1,0 +1,142 @@
+.add-story-container {
+  display: flex;
+  /* height: 100vh; */
+  justify-content: space-between;
+  gap:15px;padding:0
+}
+
+.story-bts{
+  width: 13%;
+  background-color: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-right: 1px solid #ccc;
+  height: 100vh;
+}
+
+.txt-icon{
+  /* font-size: small; */
+  display: flex;
+  border: none;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+svg{
+  font-size: x-large;
+}
+
+.sidebar-addstory {
+  width: 100%;
+  background-color: #f8f9fa;
+  padding: 20px;
+  text-align: center;
+}
+
+.add-photos {
+  color: #0066cc;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.upload-btn1{
+  padding: 10px;
+  margin-bottom: 280px;
+  margin-top: 20px;
+}
+
+.upload-btn, .upload-btn-cmp, .drag-drop {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 100%;
+  text-align: center;
+}
+
+.upload-btn:hover, .upload-btn-cmp:hover, .drag-drop:hover {
+  background-color: #f1f1f1;
+}
+
+.upload-area {
+  width: 100%;
+  height: 200px;
+  border: 2px dashed #cccccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  text-align: center;
+  background-color: #f9f9f9;
+  margin-top: 80px;
+}
+
+.upload-area:hover {
+  background-color: #f1f1f1;
+}
+
+.or-text {
+  text-align: center;
+  font-size: 16px;
+  color: #666;
+  margin-top: 10px;
+}
+
+.main-frame {
+  width: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-frame {
+  width:100%;
+  height: 80vh;
+  background-color: #e6e6e6;
+  border: 1px dashed #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toolbar {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tool-btn {
+  border: 1px solid #ccc;
+  margin: 5px;
+  padding: 10px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+}
+
+.preview-btn {
+  background-color: #0066cc;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 20px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+}
+
+.preview-btn:hover {
+  background-color: #0056b3;
+}
+
+.image-thumbnails{display:flex;gap:10px}
+.image-thumbnails>div{margin-top:10px}
+.image-thumbnails .remove{position:absolute;top:2px;right:2px;border-radius:4px;width:20px;height:20px;padding:0;display:flex;align-items: center;justify-content: center;}

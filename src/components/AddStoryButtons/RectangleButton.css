@@ -1,0 +1,29 @@
+.canvas {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-top: 20px;
+    min-height: 200px;
+    position: relative; /* Ensure the canvas allows absolute positioning of rectangles */
+}
+
+.rectangle-controls {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.tool-btn.txt-icon {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.rectangle {
+    position: absolute;
+    border-radius: 5px;
+    background-color: red; /* Default background color for testing */
+    z-index: 2; /* Ensure rectangle is above the canvas */
+}
