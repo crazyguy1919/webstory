@@ -87,6 +87,8 @@ const UnpublishedStory = () => {
                                             <Button variant="outline-danger" size="sm" onClick={() => handleDelete(id)}>
                                                 <Trash />
                                             </Button>
+
+                                            
                                         </td>
                                     </tr>
                                 ))}
