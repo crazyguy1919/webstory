@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, Form, Button } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 import { Filter, Plus, Eye, Pencil, Trash } from 'react-bootstrap-icons';  
@@ -7,6 +7,9 @@ import { Link } from 'react-router-dom'
 import '../styles/PublishedStory.css';
 
 const PublishedStory = () => {
+    const [stories, setStories] = useState([1, 2, 3, 4]); 
+    const totalStories = 78; 
+
  const handleView = (storyId) => {
 console.log(`Viewing story with ID: ${storyId}`);
 
@@ -99,6 +102,15 @@ const handleDelete = (storyId) => {
                             </tbody>
                         </Table>
                     </div>
+
+                    <div className="d-flex justify-content-between align-items-center p-3">
+                        <span>Showing 1-{stories.length} of {totalStories}</span>
+                        <div className="pagination-buttons">
+                            <Button variant="outline-primary" size="sm">{"<"}</Button>
+                            <Button variant="outline-primary" size="sm">{">"}</Button>
+                        </div>
+                    </div>
+                    
                 </Card>
             </div>
         </>
