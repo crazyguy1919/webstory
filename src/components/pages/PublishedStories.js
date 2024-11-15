@@ -3,6 +3,8 @@ import { Card, Form, Button } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 import { Filter, Plus, Eye, Pencil, Trash } from 'react-bootstrap-icons';  
 import categoryimg1 from '../../assets/images/category2.png'
+import { Link } from 'react-router-dom'
+import '../styles/PublishedStory.css';
 
 const PublishedStory = () => {
  const handleView = (storyId) => {
@@ -31,7 +33,8 @@ const handleDelete = (storyId) => {
                         </Button>
 
                         <Button variant="primary" size="sm" className="me-3 custom-btn">
-                            <Plus className="me-2" /> Add New Story
+                            <Plus className="me-2" /> 
+                            <Link to='/add-story' className="custom-btn1">Add New Story</Link>
                         </Button>
 
                         <div className="d-flex justify-content-center" style={{ flexGrow: 1 }}>
@@ -49,17 +52,17 @@ const handleDelete = (storyId) => {
                         <Table bordered className="mx-auto">
                             <thead>
                                 <tr>
-                                  <th style={{ backgroundColor: '#f8f9fa' }}>Image</th>
-                                    <th style={{ backgroundColor: '#f8f9fa' }}>Story Name</th>
-                                    <th style={{ backgroundColor: '#f8f9fa' }}>Status</th>
-                                    <th style={{ backgroundColor: '#f8f9fa' }}>Active / Inactive</th>
-                                    <th style={{ backgroundColor: '#f8f9fa' }}>Action</th>
+                                  <th className="pubtb">Image</th>
+                                    <th className="pubtb">Story Name</th>
+                                    <th className="pubtb">Status</th>
+                                    <th className="pubtb">Active / Inactive</th>
+                                    <th className="pubtb">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {[1, 2, 3, 4].map((id) => (
                                  <tr key={id}>
-                                        <td>
+                                        <td className="pubtb">
                                             <img
                                                 src={categoryimg1}
                                                 alt="Published Story"
@@ -67,17 +70,19 @@ const handleDelete = (storyId) => {
                                             />
                                         </td>
                                     <td>Lorem Ipsum Neque porro qui dolorem</td>
-                                        <td>Published</td>
-                                        <td>
+                                        <td className="pubtb">Published</td>
+                                        <td className="pubtb">
                                             
-                                            <Form.Check
+                                            <Form.Check 
                                                 type="switch"
                                                 id={`custom-switch-${id}`}
                                                 defaultChecked={id % 2 === 0}
-                                                custom
+                                                
+                                                className="text-center custom-switch"
+                                                
                                        />
                                         </td>
-                                <td className="d-flex justify-content-around">
+                                <td className="d-flex justify-content-around pubtb">
                                            
                                      <Button variant="outline-primary" size="sm" onClick={() => handleView(id)}>
                                                 <Eye />
