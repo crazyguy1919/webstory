@@ -25,7 +25,7 @@ const Header = ({ eventSidebarClick, toggleTheme, isLightTheme }) => {
     navigate('/'); // Redirects to login after clearing session
   };
   return (
-    <div className="header-section">
+    <div className="header-section" style={{background:isLightTheme ? "" :'grey'}}>
       <div className="d-flex align-items-center justify-content-between">
         <div className="col-auto">
           <div className="d-flex flex-wrap align-items-center gap-4">

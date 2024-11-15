@@ -3,6 +3,7 @@ import { Card, Form, Button } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 import { Filter, Plus, Eye, Pencil, Trash } from 'react-bootstrap-icons';  
 import categoryimg1 from '../../assets/images/category2.png'
+import '../styles/publishedstories.css'
 
 const PublishedStory = () => {
  const handleView = (storyId) => {

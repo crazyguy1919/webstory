@@ -47,7 +47,7 @@
 .sidebar-logo-1{
     position: sticky;
     top: 0px;
-    background: white;
+    /* background: white; */
     z-index: 33;
 
 }

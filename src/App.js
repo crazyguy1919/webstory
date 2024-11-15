@@ -53,9 +53,9 @@ function AppContent() {
 
   return (
     <div className="app-container" style={{ background:isLightTheme ? 'rgb(245,246,250)' : 'grey' }}>
-      {!isLoginPage && <Sidebar isSidebarVisible={isSidebarVisible}/>}
+      {!isLoginPage && <Sidebar isSidebarVisible={isSidebarVisible} isLightTheme={isLightTheme}/>}
       <div className="content right-side-section">
-        {!isLoginPage && <Header eventSidebarClick={eventSidebarClick} toggleTheme={toggleTheme} isLightTheme={isLightTheme}/>}
+        {!isLoginPage && <Header eventSidebarClick={eventSidebarClick} toggleTheme={toggleTheme} isLightTheme={isLightTheme} />}
         <div className="main-section">
           <Routes>
           <Route path="/" element={<Login />} />

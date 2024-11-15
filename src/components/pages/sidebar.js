@@ -7,9 +7,9 @@ import Logoicon2 from '../../assets/images/logo-icon.png'
 import { useNavigate } from 'react-router-dom';
 
 
-const Sidebar = ({isSidebarVisible}) => {
+const Sidebar = ({isSidebarVisible,isLightTheme}) => {
   const navigate = useNavigate(); 
-
+console.log(isLightTheme,'asdfasdfs')
   const [activeTab, setActiveTab] = useState('');
 console.log('sidebarfun',isSidebarVisible)
   const handleTabClick = (tab) => {
@@ -21,9 +21,9 @@ console.log('sidebarfun',isSidebarVisible)
     navigate('/'); 
   };  
   return (
-    <aside className={`sidebar bg-white ${isSidebarVisible ? 'isnotactive' : 'isActive'}`}  >
+    <aside className={`sidebar ${isSidebarVisible ? 'isnotactive' : 'isActive'}`} style={{background:isLightTheme ? "" :'grey'}} >
       <div className="sidebar-header sidebar-logo-1 mb-3 px-3 pt-1">
-        <Link to="/dashboard" className="sidebar-logo d-block pb-1">
+        <Link to="/dashboard" className="sidebar-logo d-block pb-1 text-center">
           <img src={isSidebarVisible ? Logoicon : Logoicon2} alt="Dashboard Logo" className="img-fluid" style={{ width: '90px',height:'55px' }} />
         </Link>
       </div>

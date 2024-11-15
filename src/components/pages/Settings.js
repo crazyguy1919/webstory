@@ -1,223 +1,186 @@
 import React, { useState } from 'react';
-import { Form, Button, Row, Col } from 'react-bootstrap';
-import { FaCamera } from 'react-icons/fa';
+import { Container, Card, Form, Button, Row, Col } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
+import { FaCamera } from "react-icons/fa";
+import 'react-toastify/dist/ReactToastify.css';
+import '../styles/Setting.css';
 
-const ProfileUpdate = () => {
-  // State to manage form data and validation errors
-  const [formData, setFormData] = useState({
-    username: '',
-    currentPassword: '',
-    newPassword: '',
-    reenterNewPassword: '',
-    photo: null,
-  });
 
-  const [errors, setErrors] = useState({
-    username: '',
-    currentPassword: '',
-    newPassword: '',
-    reenterNewPassword: '',
-  });
+const Settings = () => {
+  const [username, setUsername] = useState('');
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [reEnterPassword, setReEnterPassword] = useState('');
+  const [errors, setErrors] = useState({});
+  const [profilePic, setProfilePic] = useState('');
 
-  // State to manage the uploaded photo
-  const [uploadedPhoto, setUploadedPhoto] = useState(null);
 
-  const handleInputChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === "photo") {
-      setFormData({ ...formData, photo: files[0] });
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setUploadedPhoto(reader.result); // Set the uploaded image to be shown
+      reader.onload = () => {
+        setProfilePic(reader.result); 
       };
-      if (files[0]) {
-        reader.readAsDataURL(files[0]);
-      }
-    } else {
-      setFormData({ ...formData, [name]: value });
+      reader.readAsDataURL(file);
     }
+  };
+
+  const handleValidation = () => {
+    const tempErrors = {};
+    let isValid = true;
+
+    if (username.trim() === '') {
+      tempErrors.username = 'Username is Required';
+      isValid = false;
+    }
+
+    if (currentPassword.trim() === '') {
+      tempErrors.currentPassword = 'Password is Required';
+      isValid = false;
+    }
+
+    if (newPassword.trim() === '') {
+      tempErrors.newPassword = 'New Password is Required';
+      isValid = false;
+    }
+
+    if (reEnterPassword.trim() === '') {
+      tempErrors.reEnterPassword = 'Re-enter Password is Required';
+      isValid = false;
+    } else if (newPassword !== reEnterPassword) {
+      tempErrors.reEnterPassword = 'Passwords do not Match';
+      isValid = false;
+    }
+
+    setErrors(tempErrors);
+    return isValid;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let valid = true;
-    let newErrors = { username: '', currentPassword: '', newPassword: '', reenterNewPassword: '' };
-
-    // Remove spaces from username and validate
-    const cleanedUsername = formData.username.replace(/\s+/g, '');
-
-    // Username validation
-    if (!cleanedUsername.trim()) {
-      newErrors.username = 'Username is required.';
-      valid = false;
-    } else if (cleanedUsername.length < 3) {
-      newErrors.username = 'Username must be at least 3 characters long.';
-      valid = false;
-    } else if (!/^[A-Za-z]+$/.test(cleanedUsername)) {
-      newErrors.username = 'Username must only contain letters (spaces are ignored).';
-      valid = false;
-    }
-
-    // Current Password validation
-    if (!formData.currentPassword) {
-      newErrors.currentPassword = 'Current password is required.';
-      valid = false;
-    }
-
-    // New Password validation
-    if (!formData.newPassword) {
-      newErrors.newPassword = 'New password is required.';
-      valid = false;
-    } else if (formData.newPassword.length < 8) {
-      newErrors.newPassword = 'Password must be at least 8 characters long.';
-      valid = false;
-    } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(formData.newPassword)) {
-      newErrors.newPassword = 'Password must contain at least one special character.';
-      valid = false;
-    }
-
-    // Re-enter New Password validation
-    if (formData.reenterNewPassword !== formData.newPassword) {
-      newErrors.reenterNewPassword = 'Passwords do not match.';
-      valid = false;
-    }
-
-    setErrors(newErrors);
-
-    // If form is valid, perform the update logic
-    if (valid) {
-      console.log("Form Data:", formData);
-      // Perform update logic (e.g., API call)
+    if (handleValidation()) {
+      toast.success('Profile Updated Successfully');
     }
   };
 
   return (
-    <div>
-      <div className="mx-4 mt-5">
-        <h4>Settings</h4>
-        <h6>Profile</h6>
+    <Container>
+      <div className='setting'>
+      <h4 className=''>Settings</h4>
+      <p className=''>Profile</p>
       </div>
-      <div className="mx-4 bg-white py-4">
-        <Form onSubmit={handleSubmit}>
-          {/* Upload/Change Photo */}
-          <div className="d-flex justify-content-center">
-            <div className="position-relative">
-              <Form.Label
-                htmlFor="uploadPhoto"
-                className="d-flex justify-content-center align-items-center rounded-circle bg-light"
-                style={{
-                  width: '120px',
-                  height: '120px',
-                  cursor: 'pointer',
-                  overflow: 'hidden',
-                }}
-              >
-                {uploadedPhoto ? (
-                  <img
-                    src={uploadedPhoto}
-                    alt="Uploaded"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      borderRadius: '50%',
-                    }}
-                  />
-                ) : (
-                  <FaCamera size={60} color="#6c757d" />
-                )}
-              </Form.Label>
-              <Form.Control
+
+      <div className="d-flex justify-content-center" style={{ padding: '2rem' }}>
+        <Card className='w-100 p-3'>
+          <Card.Body>
+            <div className="text-center profile-pic mb-3">
+              
+               <FaCamera
+              className="cameraicon" />  
+               <input
                 type="file"
-                id="uploadPhoto"
-                name="photo"
-                className="d-none"
-                onChange={handleInputChange}
+                id="fileInput"
+                style={{ display: 'none' }}
+                accept="image/*"
+                onChange={handleFileChange}
               />
+              <img
+                src={profilePic}
+                className="rounded-circle propic"
+                onClick={() => document.getElementById('fileInput').click()}
+              />
+              
+              {/* <p
+                className="text-primary"
+                style={{ cursor: 'pointer' }}
+                onClick={() => document.getElementById('fileInput').click()}
+              >
+                Upload / Change Photo
+              </p> */}
+              
+              <input
+                type="file"
+                id="fileInput"
+                style={{ display: 'none' }}
+                accept="image/*"
+                onChange={handleFileChange}
+              />
+              
             </div>
-          </div>
-          <h6 className="text-center text-primary mb-4">Upload/Change Photo</h6>
+            <p className='upload-para'>Upload / Change Photo</p>
 
-          {/* Username and Current Password */}
-          <Row className="mb-3 justify-content-center">
-            <Col md={4}>
-              <Form.Group controlId="formUsername" className="floating-label-group">
-                <Form.Label>User name</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter your username"
-                  className={`form-control form-control-sm bg-light py-2 ${errors.username ? 'is-invalid' : ''}`}
-                  name="username"
-                  value={formData.username}
-                  onChange={handleInputChange}
-                  required
-                />
-                {errors.username && <div className="invalid-feedback">{errors.username}</div>}
-              </Form.Group>
-            </Col>
+            <Form className='pt-4' onSubmit={handleSubmit}>
+              <Row className="g-3 g-xl-4">
+                <Col md={6}>
+                  <Form.Group controlId="username">
+                    <Form.Label>User Name</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Please Enter User Name"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      isInvalid={!!errors.username}
+                    />
+                    <Form.Control.Feedback type="invalid">{errors.username}</Form.Control.Feedback>
+                  </Form.Group>
+                </Col>
 
-            <Col md={4}>
-              <Form.Group controlId="formCurrentPassword" className="floating-label-group">
-                <Form.Label>Current Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Enter current password"
-                  className={`form-control form-control-sm bg-light py-2 ${errors.currentPassword ? 'is-invalid' : ''}`}
-                  name="currentPassword"
-                  value={formData.currentPassword}
-                  onChange={handleInputChange}
-                  required
-                />
-                {errors.currentPassword && <div className="invalid-feedback">{errors.currentPassword}</div>}
-              </Form.Group>
-            </Col>
-          </Row>
+                <Col md={6}>
+                  <Form.Group controlId="currentPassword">
+                    <Form.Label>Current Password</Form.Label>
+                    <Form.Control
+                      type="password"
+                      placeholder="Enter Password"
+                      value={currentPassword}
+                      onChange={(e) => setCurrentPassword(e.target.value)}
+                      isInvalid={!!errors.currentPassword}
+                    />
+                    <Form.Control.Feedback type="invalid">{errors.currentPassword}</Form.Control.Feedback>
+                  </Form.Group>
+                </Col>
+          
+                <Col md={6}>
+                  <Form.Group controlId="newPassword">
+                    <Form.Label>New Password</Form.Label>
+                    <Form.Control
+                      type="password"
+                      placeholder="Enter New Password"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      isInvalid={!!errors.newPassword}
+                    />
+                    <Form.Control.Feedback type="invalid">{errors.newPassword}</Form.Control.Feedback>
+                  </Form.Group>
+                </Col>
 
-          {/* New Password and Re-enter New Password */}
-          <Row className="mb-3 justify-content-center">
-            <Col md={4}>
-              <Form.Group controlId="formNewPassword" className="floating-label-group">
-                <Form.Label>New Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Enter new password"
-                  className={`form-control form-control-sm bg-light py-2 ${errors.newPassword ? 'is-invalid' : ''}`}
-                  name="newPassword"
-                  value={formData.newPassword}
-                  onChange={handleInputChange}
-                  required
-                />
-                {errors.newPassword && <div className="invalid-feedback">{errors.newPassword}</div>}
-              </Form.Group>
-            </Col>
-
-            <Col md={4}>
-              <Form.Group controlId="formReenterNewPassword" className="floating-label-group">
-                <Form.Label>Re-enter New Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Re-enter new password"
-                  className={`form-control form-control-sm bg-light py-2 ${errors.reenterNewPassword ? 'is-invalid' : ''}`}
-                  name="reenterNewPassword"
-                  value={formData.reenterNewPassword}
-                  onChange={handleInputChange}
-                  required
-                />
-                {errors.reenterNewPassword && <div className="invalid-feedback">{errors.reenterNewPassword}</div>}
-              </Form.Group>
-            </Col>
-          </Row>
-
-          {/* Update Button */}
-          <div className="text-center">
-            <Button variant="primary" type="submit" className="mt-3">
-              Update Changes
-            </Button>
-          </div>
-        </Form>
+                <Col md={6}>
+                  <Form.Group controlId="reEnterPassword">
+                    <Form.Label>Re-Enter Password</Form.Label>
+                    <Form.Control
+                      type="password"
+                      placeholder="Re-Enter Password"
+                      value={reEnterPassword}
+                      onChange={(e) => setReEnterPassword(e.target.value)}
+                      isInvalid={!!errors.reEnterPassword}
+                    />
+                    <Form.Control.Feedback type="invalid">{errors.reEnterPassword}</Form.Control.Feedback>
+                  </Form.Group>
+                </Col>
+           
+                <Col className="text-center">
+                  <Button variant="primary" type="submit" className="mt-3">
+                    Update Changes
+                  </Button>
+                </Col>
+              </Row>
+            </Form>
+          </Card.Body>
+        </Card>
       </div>
-    </div>
+      <ToastContainer position="top-center" autoClose={3000} hideProgressBar={false} closeOnClick pauseOnHover draggable />
+    </Container>
   );
 };
 
-export default ProfileUpdate;
+export default Settings;
