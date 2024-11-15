@@ -43,7 +43,7 @@ const Dashboard = () => {
       trendColor: "text-success-main"
     },
     {
-      title: "Published Stories",
+      title: "Published",
       count: "28,293",
       icon: "ri-book-2-line",
       bgColor: "bg-gradient-start-2",

@@ -74,7 +74,7 @@ const handleDelete = (storyId) => {
                                                 type="switch"
                                                 id={`custom-switch-${id}`}
                                                 defaultChecked={id % 2 === 0}
-                                                custom
+                                                custom className="text-center"
                                        />
                                         </td>
                                 <td className="d-flex justify-content-around">

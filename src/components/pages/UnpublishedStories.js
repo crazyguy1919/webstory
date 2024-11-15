@@ -74,6 +74,7 @@ const UnpublishedStory = () => {
                                                 id={`custom-switch-${id}`}
                                                 defaultChecked={id % 2 === 0}
                                                 custom
+                                                className="text-center"
                                             />
                                         </td>
                                         <td className="d-flex justify-content-around">

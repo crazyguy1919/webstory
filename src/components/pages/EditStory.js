@@ -2,7 +2,7 @@ import React from 'react';
 
 const SeoElements = () => {
   return (
-    <div className="row gy-4">
+    <div className="row gy-4 mb-4">
       <h3>Create Stories</h3>
       <div className="col-md-12">
         <div className="card">
@@ -82,7 +82,7 @@ const StoryCard = ({ storyTitle }) => {
 
 const SubmissionSection = () => {
   return (
-    <div className="col-md-12">
+    <div className="col-md-12 mt-4">
       <div className="card">
         <div className="card-body">
           <div className="row gy-3">
@@ -94,7 +94,7 @@ const SubmissionSection = () => {
               </select>
             </div>
             <div className="col-12 text-center">
-              <div className="d-flex flex-wrap align-items-center gap-3 justify-content-center">
+              <div className="d-flex flex-wrap align-items-center gap-3">
                 <button type="button" className="btn btn-lg btn-primary radius-8 px-4 py-2">Preview</button>
                 <button type="button" className="btn btn-lg btn-outline-success radius-8 px-4 py-2">Submit</button>
               </div>
@@ -106,7 +106,7 @@ const SubmissionSection = () => {
   );
 };
 
-const App = () => {
+const Addtstory = () => {
   return (
     <div className="container my-4">
       <SeoElements />
@@ -120,4 +120,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Addtstory;
