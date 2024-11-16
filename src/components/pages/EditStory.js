@@ -3,7 +3,7 @@ import React from 'react';
 const SeoElements = () => {
   return (
     <div className="row gy-4 mb-4">
-      <h3>Create Stories</h3>
+      {/* <h3>Create Stories</h3> */}
       <div className="col-md-12">
         <div className="card">
           <div className="card-header">
@@ -15,10 +15,23 @@ const SeoElements = () => {
                 <label className="form-label">Title Text</label>
                 <input type="text" className="form-control" placeholder="Short Title" />
               </div>
-              <div className="col-md-6">
+              {/* <div className="col-md-6">
                 <label className="form-label">Add Cover Image</label>
                 <input type="file" className="form-control" required />
                 <div className="invalid-feedback">Please choose a file.</div>
+              </div> */}
+
+
+             <div className="col-6">
+                <label className="form-label">Category</label>
+                <select className="form-control form-select">
+                  <option>Select Category</option>
+                  <option>Category 1</option>
+                  <option>Category 2</option>
+                  <option>Category 3</option>
+                  <option>Category 4</option>
+                  <option>Category 5</option>
+                </select>
               </div>
               <div className="col-lg-6">
                 <label className="form-label">Description</label>
@@ -32,17 +45,7 @@ const SeoElements = () => {
                 <label className="form-label">URL</label>
                 <input type="text" className="form-control" placeholder="Enter URL" />
               </div>
-              <div className="col-6">
-                <label className="form-label">Category</label>
-                <select className="form-control form-select">
-                  <option>Select Category</option>
-                  <option>Category 1</option>
-                  <option>Category 2</option>
-                  <option>Category 3</option>
-                  <option>Category 4</option>
-                  <option>Category 5</option>
-                </select>
-              </div>
+             
             </div>
           </div>
         </div>
@@ -109,12 +112,13 @@ const SubmissionSection = () => {
 const Addtstory = () => {
   return (
     <div className="container my-4">
-      <SeoElements />
+     
       <div className="row gy-4">
         {['Story 1', 'Story 2', 'Story 3', 'Story 4', 'Story 5'].map((title, index) => (
           <StoryCard key={index} storyTitle={title} />
         ))}
       </div>
+      <SeoElements />
       <SubmissionSection />
     </div>
   );

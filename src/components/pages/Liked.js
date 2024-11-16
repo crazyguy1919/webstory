@@ -5,7 +5,7 @@ const Liked = () => {
     <div>
 
       <h1>liked</h1>
-
+    
     </div>
   )
 }

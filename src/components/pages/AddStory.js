@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+
 
 
 
@@ -11,7 +12,6 @@ const SeoElements = ({ formData, setFormData }) => {
 
   return (
     <div className="row gy-4 mb-4">
-      <h3>Create Stories</h3>
       <div className="col-md-12">
         <div className="card">
           <div className="card-header">
@@ -31,7 +31,7 @@ const SeoElements = ({ formData, setFormData }) => {
                 />
               </div>
               <div className="col-md-6">
-                <label className="form-label">Add Cover Image</label>
+                {/* <label className="form-label">Add Cover Image</label>
                 <input
                   type="file"
                   className="form-control"
@@ -43,7 +43,25 @@ const SeoElements = ({ formData, setFormData }) => {
                     }))
                   }
                 />
-                <div className="invalid-feedback">Please choose a file.</div>
+                <div className="invalid-feedback">Please choose a file.</div> */}
+
+          
+            
+
+              <label className="form-label">Category</label>
+                <select
+                  className="form-control form-select"
+                  name="category"
+                  value={formData.category || ''}
+                  onChange={handleInputChange}
+                >
+                  <option value="">Select Category</option>
+                  <option value="Category 1">Category 1</option>
+                  <option value="Category 2">Category 2</option>
+                  <option value="Category 3">Category 3</option>
+                  <option value="Category 4">Category 4</option>
+                  <option value="Category 5">Category 5</option>
+                </select>
               </div>
               <div className="col-lg-6">
                 <label className="form-label">Description</label>
@@ -67,6 +85,18 @@ const SeoElements = ({ formData, setFormData }) => {
                   placeholder="Enter Schema..."
                 ></textarea>
               </div>
+
+
+              <div className="col-lg-6">
+                <label className="form-label">URL</label>
+                <input type="text"
+                 className="form-control"
+                 name="url"
+                 value={formData.url || ''}
+                 onChange={handleInputChange}
+                placeholder="Enter URL" />
+              </div>
+
             </div>
           </div>
         </div>
@@ -195,22 +225,129 @@ const Addtstory = () => {
   const [stories, setStories] = useState([{ title: '', description: '', image: '' }]);
   const [publishStatus, setPublishStatus] = useState('Unpublished');
 
+  const [submittedDateTime, setSubmittedDateTime] = useState(null);
+
+  const [userName,setuserName] = useState('')
+
   const addStory = () => {
     setStories((prevStories) => [...prevStories, { title: '', description: '', image: '' }]);
   };
 
+
+   useEffect(() => {
+    setuserName(JSON.parse(sessionStorage.getItem('user')))
+      
+    }, [userName]);
+
+
+
+
+
+
   const handleSubmit = () => {
+
+
+    const idGenerate = Date.now();
+
+    const nowDate = new Date();
+    const formattedDateTime = nowDate.toISOString().slice(0, 19).replace("T", " ");
+      setSubmittedDateTime(formattedDateTime);
+  
+
+
     const dataToSubmit = {
       seoData: formData,
       stories,
-      publishStatus,
+      publishStatus,  
     };
-    console.log('Submitted Data:', dataToSubmit);
+    
+
+
+
+
+
+    fetch('https://www.medicoverhospitals.in/apis/webstory', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json', 
+      },
+      body: JSON.stringify({
+
+
+    storyid: idGenerate,
+    img1: dataToSubmit.stories[0].image,
+    img1t: dataToSubmit.stories[0].title,
+    img1d: dataToSubmit.stories[0].description,
+    img2: dataToSubmit.stories[1].image,
+    img2t: dataToSubmit.stories[1].title,
+    img2d: dataToSubmit.stories[1].description,
+    img3: dataToSubmit.stories[2].image,
+    img3t: dataToSubmit.stories[2].title,
+    img3d: dataToSubmit.stories[2].description,
+    img4: dataToSubmit.stories[3].image,
+    img4t: dataToSubmit.stories[3].title,
+    img4d: dataToSubmit.stories[3].description,
+    img5: dataToSubmit.stories[4].image,
+    img5t: dataToSubmit.stories[4].title,
+    img5d: dataToSubmit.stories[4].description,
+
+    title: dataToSubmit.seoData.seoTitle,
+
+    description: dataToSubmit.seoData.seoDescription,
+
+    time: formattedDateTime,
+    user: userName,
+    status: "Unpublished"
+
+
+      }),
+    })
+
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json(); 
+    })
+    .then((data) => {
+      console.log('Success:', data); 
+    })
+    .catch((error) => {
+      console.error('Error:', error); 
+    });
+
+  console.log('adfsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+  
+
+    console.log('seo Data:', dataToSubmit.seoData);
+    console.log('stories data' , dataToSubmit.stories)
+
+    console.log('publish data', publishStatus)
+    console.log('username', userName, idGenerate)
   };
+
+
+  // fetch('https://www.medicoverhospitals.in/apis/get_story?storyid=1001', {
+  //   method: 'GET',
+  // })
+  //   .then((response) => {
+  //     if (!response.ok) {
+  //       throw new Error('Network response was not ok ' + response.statusText);
+  //     }
+  //     return response.json(); 
+  //   })
+  //   .then((data) => {
+  //     console.log('Story Dataasdfasdfasf:', data); 
+  //   })
+  //   .catch((error) => {
+  //     console.error('There was a problem with the fetch operation:', error);
+  //   });
+
+
+
 
   return (
     <div className="container my-4">
-      <SeoElements formData={formData} setFormData={setFormData} />
       <div className="row gy-4">
         {stories.map((_, index) => (
           <StoryCard
@@ -226,6 +363,12 @@ const Addtstory = () => {
           + Add Story
         </button>
       </div>
+
+      <SeoElements formData={formData} setFormData={setFormData} />
+
+
+
+
       <PublishSection publishStatus={publishStatus} setPublishStatus={setPublishStatus} />
       <SubmissionSection handleSubmit={handleSubmit} />
     </div>

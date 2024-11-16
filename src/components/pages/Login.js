@@ -65,7 +65,7 @@ console.log('helloo')
 
     return (
         <div className='login-section'>
-<div class="row gy-4 p-md-0 p-2 ms-md-5">
+<div class="row gy-4 justify-content-center">
       <div class="col-xxl-7 col-md-7">
         <div class="card">
           <div class="card-header text-center">
