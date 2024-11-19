@@ -51,8 +51,8 @@ const UnpublishedStory = () => {
                     </div>
                     <hr />
 
-                    <div className="table-responsive">
-                        <Table bordered className="mx-auto">
+                    <div className="table-responsive cutsom-table mt-2 mx-4">
+                        <Table className="mx-auto table m-0">
                             <thead>
                                 <tr>
                                     <th className="pubtb">Image</th>
@@ -65,11 +65,10 @@ const UnpublishedStory = () => {
                             <tbody>
                                 {[1, 2, 3, 4, 5].map((id) => (
                                     <tr key={id}>
-                                        <td className="pubtb">
+                                        <td className="pubtb img">
                                             <img
                                                 src={categoryimg1}
                                                 alt="Published Story"
-                                                style={{ width: '50px', height: '50px', objectFit: 'cover' }}
                                             />
                                         </td>
                                         <td className="pubtb">Lorem Ipsum Neque porro qui dolorem</td>
@@ -81,22 +80,23 @@ const UnpublishedStory = () => {
                                                 id={`custom-switch-${id}`}
                                                 defaultChecked={id % 2 === 0}
                                                 custom
-                                                className="text-center custom-switch"
+                                                className="custom-switch"
                                             />
                                         </td>
-                                        <td className="d-flex justify-content-around pubtb">
-                                           
-                                            <Button variant="outline-primary" size="sm" onClick={() => handleView(id)}>
-                                                <Eye />
-                                            </Button>
-                                            <Button variant="outline-secondary" size="sm" onClick={() => handleEdit(id)} className="mx-2">
-                                                <Pencil />
-                                            </Button>
-                                            <Button variant="outline-danger" size="sm" onClick={() => handleDelete(id)}>
-                                                <Trash />
-                                            </Button>
-
-
+                                        <td className="justify-content-around pubtb">
+                                           <div className="d-flex">
+                                                <Button variant="outline-primary" className="rounded-0 view" size="sm" onClick={() => handleView(id)}>
+                                                    <Eye />
+                                                </Button>
+                                                <Button variant="outline-secondary" size="sm" onClick={() => handleEdit(id)} className="mx-2 edit rounded-0">
+                                                   <Link to='/edit-story' >
+                                                    <Pencil />
+                                                    </Link>
+                                                </Button>
+                                                <Button variant="outline-danger" className="rounded-0 delete" size="sm" onClick={() => handleDelete(id)}>
+                                                    <Trash />
+                                                </Button>
+                                            </div>
                                         </td>
                                     </tr>
                                 ))}
@@ -104,9 +104,9 @@ const UnpublishedStory = () => {
                         </Table>
                     </div>
 
-                    <div className="d-flex justify-content-between align-items-center p-3">
+                    <div className="d-flex justify-content-between paginations align-items-center py-3 px-4">
                         <span>Showing 1-{stories.length} of {totalStories}</span>
-                        <div className="pagination-buttons">
+                        <div className="pagination-buttons d-flex" style={{gap:'5px'}}>
                             <Button variant="outline-primary" size="sm">{"<"}</Button>
                             <Button variant="outline-primary" size="sm">{">"}</Button>
                         </div>
