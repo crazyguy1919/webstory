@@ -21,6 +21,26 @@ const handleDelete = (storyId) => {
 
     };
 
+
+
+    
+  // fetch('https://www.medicoverhospitals.in/apis/get_story?storyid=1001', {
+  //   method: 'GET',
+  // })
+  //   .then((response) => {
+  //     if (!response.ok) {
+  //       throw new Error('Network response was not ok ' + response.statusText);
+  //     }
+  //     return response.json(); 
+  //   })
+  //   .then((data) => {
+  //     console.log('Story Dataasdfasdfasf:', data); 
+  //   })
+  //   .catch((error) => {
+  //     console.error('There was a problem with the fetch operation:', error);
+  //   });
+
+
     return (
         <>
             <div className="d-flex justify-content-center" style={{ padding: '2rem' }}>
