@@ -12,7 +12,7 @@ const SeoElements = ({ formData, setFormData, errors }) => {
   };
 
   return (
-    <div className="row gy-4 mb-4">
+    <div className="row gy-4 mb-4 mt-4">
       <div className="col-md-12">
         <div className="card">
           <div className="card-header">
@@ -28,7 +28,7 @@ const SeoElements = ({ formData, setFormData, errors }) => {
                   name="seoTitle"
                   value={formData.seoTitle || ""}
                   onChange={handleInputChange}
-                  placeholder="Short Title"
+                  placeholder="Title"
                 />
                 {errors.seoTitle && (
                   <div className="invalid-feedback">Title is required.</div>
@@ -105,7 +105,6 @@ const SeoElements = ({ formData, setFormData, errors }) => {
     </div>
   );
 };
-
 const StoryCard = ({ index, storyData, setStoryData, errors }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -131,10 +130,12 @@ const StoryCard = ({ index, storyData, setStoryData, errors }) => {
                 className={`form-control ${errors[index]?.image ? "is-invalid" : ""}`}
                 name="image"
                 onChange={(e) => {
+                  const fileName = e.target.files[0]?.name || '';
+                  const uniquePath = `${new Date().getTime()}-${fileName}`;
+                  
                   setStoryData((prevData) => {
                     const updatedStories = [...prevData];
-                    updatedStories[index].image =
-                      e.target.files[0]?.name || "";
+                    updatedStories[index].image = uniquePath;
                     return updatedStories;
                   });
                 }}
@@ -151,7 +152,7 @@ const StoryCard = ({ index, storyData, setStoryData, errors }) => {
                 name="title"
                 value={storyData[index]?.title || ""}
                 onChange={handleInputChange}
-                placeholder="Short Title"
+                placeholder="Title"
               />
               {errors[index]?.title && (
                 <div className="invalid-feedback">Title is required.</div>
@@ -161,18 +162,14 @@ const StoryCard = ({ index, storyData, setStoryData, errors }) => {
               <label className="form-label">Description</label>
               <input
                 type="text"
-                className={`form-control ${
-                  errors[index]?.description ? "is-invalid" : ""
-                }`}
+                className={`form-control ${errors[index]?.description ? "is-invalid" : ""}`}
                 name="description"
                 value={storyData[index]?.description || ""}
                 onChange={handleInputChange}
-                placeholder="Short Description"
+                placeholder="Description"
               />
               {errors[index]?.description && (
-                <div className="invalid-feedback">
-                  Description is required.
-                </div>
+                <div className="invalid-feedback">Description is required.</div>
               )}
             </div>
           </div>
@@ -182,10 +179,18 @@ const StoryCard = ({ index, storyData, setStoryData, errors }) => {
   );
 };
 
+
 const Addtstory = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [storyiesstatus,setStoryiesstatus] = useState(null)
   const [formData, setFormData] = useState({});
+
+  const [userName,setuserName] = useState()
+
+    useEffect(() => {
+      setuserName(JSON.parse(sessionStorage.getItem('user')))
+       
+    }, []);
 
 
   const [stories, setStories] = useState([
@@ -212,10 +217,11 @@ const Addtstory = () => {
   };
 
   const handleSubmit = () => {
+
     if (validateForm()) {
-      const formattedDateTime = new Date().toISOString(); // Example datetime format
-      const userName = "yourUserName"; // Replace with the actual username logic
-      const idGenerate = `story-${Math.random().toString(36).substr(2, 9)}`; // Example ID generation logic
+      const formattedDateTime = new Date().toISOString(); 
+      
+      const idGenerate = Date.now(); 
   
       const dataToSubmit = {
         seoData: {
@@ -225,6 +231,9 @@ const Addtstory = () => {
         stories: stories,
       };
   
+
+
+      console.log('asdfasdfasdf',dataToSubmit.stories[0]?.image)
       fetch("https://www.medicoverhospitals.in/apis/webstory", {
         method: "POST",
         headers: {
@@ -274,7 +283,8 @@ const Addtstory = () => {
             }, 3000);
           }
          
-          formData.seoTitle=''
+           formData.seoTitle=''
+           formData.seoDescription=''
 
         })
         .catch((error) => {
