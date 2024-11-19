@@ -76,13 +76,20 @@ const SeoElements = ({ formData, setFormData, errors }) => {
               <div className="col-lg-6">
                 <label className="form-label">Schema</label>
                 <textarea
-                  className="form-control"
+                  className={`form-control form-select ${
+                    errors.category ? "is-invalid" : ""
+                  }`}
+               
                   name="seoSchema"
                   rows="4"
                   value={formData.seoSchema || ""}
                   onChange={handleInputChange}
                   placeholder="Enter Schema..."
                 ></textarea>
+
+                  {errors.url && (
+                  <div className="invalid-feedback">Schema required.</div>
+                )}
               </div>
               <div className="col-lg-6">
                 <label className="form-label">URL</label>
@@ -203,6 +210,12 @@ const Addtstory = () => {
     const newErrors = {};
     if (!formData.seoTitle) newErrors.seoTitle = true;
     if (!formData.category) newErrors.category = true;
+
+    // if (!formData.)   
+
+
+      
+
     if (!formData.seoDescription) newErrors.seoDescription = true;
     if (!formData.url) newErrors.url = true;
 
@@ -241,19 +254,19 @@ const Addtstory = () => {
         },
         body: JSON.stringify({
           storyid: idGenerate,
-          img1: dataToSubmit.stories[0]?.image,
+           img1: dataToSubmit.stories[0]?.image,
           img1t: dataToSubmit.stories[0]?.title,
           img1d: dataToSubmit.stories[0]?.description,
-          img2: dataToSubmit.stories[1]?.image,
+           img2: dataToSubmit.stories[1]?.image,
           img2t: dataToSubmit.stories[1]?.title,
           img2d: dataToSubmit.stories[1]?.description,
-          img3: dataToSubmit.stories[2]?.image,
+           img3: dataToSubmit.stories[2]?.image,
           img3t: dataToSubmit.stories[2]?.title,
           img3d: dataToSubmit.stories[2]?.description,
-          img4: dataToSubmit.stories[3]?.image,
+           img4: dataToSubmit.stories[3]?.image,
           img4t: dataToSubmit.stories[3]?.title,
           img4d: dataToSubmit.stories[3]?.description,
-          img5: dataToSubmit.stories[4]?.image,
+           img5: dataToSubmit.stories[4]?.image,
           img5t: dataToSubmit.stories[4]?.title,
           img5d: dataToSubmit.stories[4]?.description,
           title: dataToSubmit.seoData.seoTitle,
@@ -285,6 +298,21 @@ const Addtstory = () => {
          
            formData.seoTitle=''
            formData.seoDescription=''
+          //  stories[0]?.image = ""
+          //  formData.stories[0]?.title = ""
+          //  formData.stories[0]?.description = ""
+          //  formData.stories[1]?.image = ""
+          //  formData.stories[1]?.title = ""
+          //  formData.stories[1]?.description = ""
+          //  formData.stories[2]?.image = ""
+          //  formData.stories[2]?.title = ""
+          //  formData.stories[2]?.description = ""
+          //  formData.stories[3]?.image = ""
+          //  formData.stories[3]?.title = ""
+          //  formData.stories[3]?.description = ""
+          //  formData.stories[4]?.image = ""
+          //  formData.stories[4]?.title = ""
+          //  formData.stories[4]?.description = ""
 
         })
         .catch((error) => {

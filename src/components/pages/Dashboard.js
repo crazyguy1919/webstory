@@ -3,6 +3,7 @@ import { Icon } from '@iconify/react';
 import '../styles/dashboard.css';
 import Graph from '../pages/graph'
 
+
 const StatCard = ({ title, count, icon, bgColor, trendText, trendIcon, trendColor, iconBgColor,indexval}) => {''
   console.log(trendIcon,'adfasdf')
   return (

@@ -11,12 +11,12 @@ const Login = () => {
     const [success, setSuccess] = useState('');
     const navigate = useNavigate(); 
 
-    // useEffect(() => {
-    //     const sessionUserData = JSON.parse(sessionStorage.getItem('user'));
-    //     if (sessionUserData) {
-    //         navigate('/dashboard');
-    //     }
-    // }, [navigate]);
+    useEffect(() => {
+        const sessionUserData = JSON.parse(sessionStorage.getItem('user'));
+        if (sessionUserData) {
+            navigate('/dashboard');
+        }
+    }, [navigate]);
 
     const handleLogin = async (e) => {
         e.preventDefault();

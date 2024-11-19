@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -14,10 +23,11 @@ const MonthlyPublishedStories = () => {
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
 
-  const years = Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - i); 
+  const years = Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - i);
 
   useEffect(() => {
-    const fetchedData = [20, 40, 30, 50, 60, 70, 55, 80, 90, 60, 75, 100]; 
+    // Simulated fetched data (views for each month)
+    const fetchedData = [2000, 4000, 3000, 5000, 6000, 7000, 5500, 8000, 9000, 6000, 7500, 10000];
     setStoryData(fetchedData);
   }, [selectedMonth, selectedYear]);
 
@@ -25,13 +35,13 @@ const MonthlyPublishedStories = () => {
     labels: months,
     datasets: [
       {
-        label: `Published Stories in ${selectedYear} (%)`,
+        label: `Monthly Views in ${selectedYear}`,
         data: storyData,
         fill: true,
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
         borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 2,
-        tension: 0.15, 
+        tension: 0.15,
         pointBackgroundColor: 'rgba(75, 192, 192, 1)',
         pointRadius: 4,
         pointHoverRadius: 6,
@@ -45,23 +55,20 @@ const MonthlyPublishedStories = () => {
       legend: { position: 'top' },
       title: {
         display: true,
-        text: `Monthly Published Stories for ${selectedYear} (as % of target)`,
+        text: `Monthly Published Stories Views for ${selectedYear}`,
         font: { size: 18 },
       }
     },
     scales: {
       x: {
         grid: { display: false },
-        // title: { display: true, text: 'Month' }
       },
       y: {
         beginAtZero: true,
-        max: 100, 
         ticks: {
-          stepSize: 20, 
-          callback: (value) => `${value}%` 
+          stepSize: 2000, // Adjust step size as needed
+          callback: (value) => `${value} views` // Show views on the y-axis
         },
-        title: { display: true, text: 'Percentage (%)' },
         grid: { color: 'rgba(200, 200, 200, 0.2)' }
       }
     }
