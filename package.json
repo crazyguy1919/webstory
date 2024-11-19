@@ -10,10 +10,12 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "cropperjs": "^1.6.2",
     "firebase": "^11.0.1",
     "konva": "^9.3.16",
+    "path": "^0.12.7",
     "react": "^18.3.1",
     "react-bootstrap-icons": "^1.11.4",
     "react-bootstrap-sidebar-menu": "^2.0.3",
@@ -29,6 +31,8 @@
     "react-router-dom": "^6.27.0",
     "react-scripts": "5.0.1",
     "react-toastify": "^10.0.6",
+    "stream": "^0.0.3",
+    "url": "^0.11.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
