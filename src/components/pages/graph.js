@@ -67,7 +67,7 @@ const MonthlyPublishedStories = () => {
         beginAtZero: true,
         ticks: {
           stepSize: 2000, // Adjust step size as needed
-          callback: (value) => `${value} views` // Show views on the y-axis
+          callback: (value) => `${value} k` // Show views on the y-axis
         },
         grid: { color: 'rgba(200, 200, 200, 0.2)' }
       }

@@ -30,17 +30,23 @@
 
 
 .sidebar-nav-bars {
-    overflow-y: auto;
+    overflow-y:scroll;
     height: 95vh;
 
     scrollbar-width: thin; 
     scrollbar-color: none; 
 
    padding-bottom: 70px !important;
+   
 }
 
 .sidebar-nav-bars::-webkit-scrollbar {
-    width: 8px; 
+    width: 0px; 
+  
+}
+
+.sidebar-nav-bars::-webkit-scrollbar {
+    display: none; 
 }
 
 
@@ -49,6 +55,7 @@
     top: 0px;
     /* background: white; */
     z-index: 33;
+
 
 }
 
