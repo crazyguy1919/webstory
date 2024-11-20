@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 const AddStory = () => {
   const [stories, setStories] = useState([
@@ -15,10 +16,28 @@ const AddStory = () => {
   const [seoDescription, setSeoDescription] = useState("");
   const [storyId, setStoryId] = useState("");
   const [status, setStatus] = useState("active");
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState("");
 
-  const [url, setUrl] = useState('');
-  const [error, setError] = useState('');
+  const [url, setUrl] = useState("");
+  const [files, setFiles] = useState([]);
+
+
+  const handleFileChange = (event) => {
+    const selectedFiles = Array.from(event.target.files);
+    const validFiles = selectedFiles.filter((file) => {
+      const isValidType = ["image/jpeg", "image/png", "image/webp"].includes(file.type);
+      const isValidSize = file.size <= 5 * 1024 * 1024; 
+      return isValidType && isValidSize;
+    });
+  
+    if (validFiles.length !== selectedFiles.length) {
+      toast.error("Some files are invalid. Only JPEG, PNG, or WebP under 5MB are allowed.");
+    }
+  
+    setFiles(validFiles);
+  };
+  
+
 
   const handleStatusChange = (e) => {
     const selectedCategory = e.target.value;
@@ -32,11 +51,11 @@ const AddStory = () => {
       setStatus("active");
     }
   };
-  
-  
+
+
 
   useEffect(() => {
-    fetch('https://www.medicoverhospitals.in/apis/get_story?storyid=1001', {
+    fetch("https://www.medicoverhospitals.in/apis/get_story?storyid=1001", {
       method: "GET",
     })
       .then((response) => {
@@ -46,7 +65,6 @@ const AddStory = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         if (data.status === "success" && data.data) {
           const fetchedData = data.data;
           setStoryId(fetchedData.storyid);
@@ -65,18 +83,6 @@ const AddStory = () => {
       });
   }, []);
 
-  const handleImageChange = (e, index) => {
-    const file = e.target.files[0];
-    const updatedStories = [...stories];
-    updatedStories[index].image = file;
-
-    if (file && file.type.startsWith("image/")) {
-      updatedStories[index].imagePreview = URL.createObjectURL(file);
-    }
-
-    setStories(updatedStories);
-  };
-
   const handleInputChange = (e, index, field) => {
     const updatedStories = [...stories];
     updatedStories[index][field] = e.target.value;
@@ -91,79 +97,65 @@ const AddStory = () => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); 
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
     const urlPattern = /^(https?:\/\/)?([a-z0-9]+[.]){1,2}[a-z]{2,5}(\/[^\s]*)?$/i;
-
     if (!urlPattern.test(url)) {
-      setError('Please enter a valid URL');
+      toast.error("Please enter a valid URL");
       return;
     }
-
-    setError(''); 
-
- 
   
+    if (files.length === 0) {
+      toast.error("Please select at least one file!");
+      return;
+    }
   
-
-    const payload = {
-      storyid: storyId,
-      status: status,
-      // url: url || "",
-      // category: category || "",
-      title: seoTitle || "Default SEO Title",
-      description: seoDescription || "Default SEO Description",
-      img1: stories[0]?.image ? stories[0].image.name : "",
-      img1t: stories[0]?.title || "",
-      img1d: stories[0]?.description || "",
-      img2: stories[1]?.image ? stories[1].image.name : "",
-      img2t: stories[1]?.title || "",
-      img2d: stories[1]?.description || "",
-      img3: stories[2]?.image ? stories[2].image.name : "",
-      img3t: stories[2]?.title || "",
-      img3d: stories[2]?.description || "",
-      img4: stories[3]?.image ? stories[3].image.name : "",
-      img4t: stories[3]?.title || "",
-      img4d: stories[3]?.description || "",
-      img5: stories[4]?.image ? stories[4].image.name : "",
-      img5t: stories[4]?.title || "",
-      img5d: stories[4]?.description || "",
-    };
+    const formData = new FormData();
   
-    console.log("Submitting payload:", payload);
-
+    formData.append("seoTitle", seoTitle);
+    formData.append("seoDescription", seoDescription);
+    formData.append("storyId", storyId);
+    formData.append("status", status);
+    formData.append("category", category);
+    formData.append("url", url);
   
-    toast.success('Data submitted successfully');
+   
+    stories.forEach((story, index) => {
+      if (files[index]) {
+        formData.append(`img${index + 1}`, files[index]); 
+      }
+      formData.append(`img${index + 1}t`, story.title); 
+      formData.append(`img${index + 1}d`, story.description); 
+    });
   
-
-    fetch("https://www.medicoverhospitals.in/apis/webstory_update", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          console.error("HTTP error:", response.status, response.statusText);
-          throw new Error(`HTTP error! Status: ${response.status}`);
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ": " + pair[1]);
+    }
+  
+    try {
+      const response = await axios.post(
+        "https://www.medicoverhospitals.in/apis/webstorysingle",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("API response:", data);
-        if (data.status === "success") {
-          toast.success("Stories updated successfully!");
-        } else {
-          toast.error("Failed to update stories: " + data.message);
-        }
-      })
-      .catch((error) => {
-        console.error("Error submitting stories:", error);
-        toast.error("There was an error while submitting your stories.");
-      });
+      );
+  
+      if (response.data.success) {
+        toast.success(response.data.message);
+      } else {
+        toast.error(response.data.message || "Upload failed");
+      }
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Error uploading stories. Please try again."
+      );
+    }
   };
+  
   
 
   return (
@@ -178,32 +170,15 @@ const AddStory = () => {
               </div>
               <div className="card-body">
                 <div className="row gy-3">
-                  {/* Add Image */}
                   <div className="col-md-4">
                     <label className="form-label">Add Image</label>
                     <input
                       type="file"
                       className="form-control"
-                      onChange={(e) => handleImageChange(e, index)}
+                      multiple
+                      onChange={handleFileChange}
                     />
-                    {story.image && (
-                      <div className="mt-2">
-                        <strong>Selected File:</strong>{" "}
-                        {typeof story.image === "string"
-                          ? story.image
-                          : story.image.name}
-                      </div>
-                    )}
-                    {story.image && typeof story.image === "object" && story.imagePreview && (
-                      <img
-                        src={story.imagePreview}
-                        alt={`Story ${index + 1}`}
-                        style={{ width: "100%", height: "auto", marginTop: "10px" }}
-                      />
-                    )}
                   </div>
-
-                  {/* Title Text */}
                   <div className="col-md-4">
                     <label className="form-label">Title Text</label>
                     <input
@@ -214,8 +189,6 @@ const AddStory = () => {
                       onChange={(e) => handleInputChange(e, index, "title")}
                     />
                   </div>
-
-                  {/* Description */}
                   <div className="col-md-4">
                     <label className="form-label">Description</label>
                     <input
@@ -223,9 +196,7 @@ const AddStory = () => {
                       className="form-control"
                       placeholder="Short Description"
                       value={story.description}
-                      onChange={(e) =>
-                        handleInputChange(e, index, "description")
-                      }
+                      onChange={(e) => handleInputChange(e, index, "description")}
                     />
                   </div>
                 </div>
@@ -235,7 +206,6 @@ const AddStory = () => {
         ))}
       </div>
 
-      {/* SEO Elements */}
       <div className="row gy-4 mb-4">
         <div className="col-md-12">
           <div className="card">
@@ -244,7 +214,6 @@ const AddStory = () => {
             </div>
             <div className="card-body">
               <div className="row gy-3">
-                {/* Title */}
                 <div className="col-6">
                   <label className="form-label">Title Text</label>
                   <input
@@ -256,24 +225,19 @@ const AddStory = () => {
                     onChange={(e) => handleSeoInputChange(e, "seoTitle")}
                   />
                 </div>
-                {/* Category */}
                 <div className="col-md-6">
-              <label className="form-label">Category</label>
-                <select
-                  className="form-control form-select"
-                  name="category"
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                >
-                  <option value="">Select Category</option>
-                  <option value="Category 1">Category 1</option>
-                  <option value="Category 2">Category 2</option>
-                  <option value="Category 3">Category 3</option>
-                  <option value="Category 4">Category 4</option>
-                  <option value="Category 5">Category 5</option>
-                </select>
-              </div>
-              {/* Description */}
+                  <label className="form-label">Category</label>
+                  <select
+                    className="form-control form-select"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                  >
+                    <option value="">Select Category</option>
+                    <option value="Category 1">Category 1</option>
+                    <option value="Category 2">Category 2</option>
+                    <option value="Category 3">Category 3</option>
+                  </select>
+                </div>
                 <div className="col-lg-6">
                   <label className="form-label">Description</label>
                   <textarea
@@ -296,24 +260,25 @@ const AddStory = () => {
                   placeholder="Enter Schema..."
                 ></textarea>
               </div>
-              {/* Url */}
-              <div className="col-lg-6">
-                <label className="form-label">URL</label>
-                <input type="url"
-                 className="form-control"
-                 name="url"
-                placeholder="Enter URL" 
-                value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            required
-            />
-              </div>
+
+                <div className="col-lg-6">
+                  <label className="form-label">URL</label>
+                  <input
+                    type="url"
+                    className="form-control"
+                    placeholder="Enter URL"
+                    value={url}
+                    onChange={(e) => setUrl(e.target.value)}
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-{/* Select Story */}
+
+
+      {/* Select Story */}
       <div className="col-md-12">
       <label className="form-label">Select Story </label>
       <select
@@ -328,9 +293,9 @@ const AddStory = () => {
 </select>
     </div>
 
-{/* Submit */}
+
       <div className="text-center mt-4">
-        <button className="btn btn-outline-success" onClick={handleSubmit}>
+        <button type="submit" className="btn btn-outline-success" onClick={handleSubmit}>
           Submit
         </button>
       </div>
