@@ -5,9 +5,9 @@
 /* .sidebar-nav-bars a:hover{
   color: blue !important;
 } */
-.sidebar-header{
+/* .sidebar-header{
     border-bottom: 2px solid #f5f6fa;
-}
+} */
 
 .isActive span{
     display: none;
@@ -19,7 +19,8 @@
 .sidebar{
     width: 335px;
     transition: all 0.2s ease-in-out;
-    border-right:2px solid #f5f6fa;
+    border-right:2px solid #E0E0E0;
+    background-color: white;
 
 }
 
@@ -57,6 +58,10 @@
     z-index: 33;
 
 
+
+}
+.sidebar-logo{
+    padding: 15px 0px;
 }
 
 

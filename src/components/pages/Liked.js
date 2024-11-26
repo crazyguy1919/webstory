@@ -307,7 +307,7 @@ const Addtstory = () => {
       console.log("SEO Data:", dataToSubmit);
       // console.log("Stories Data:", dataToSubmit.stories);
       // console.log("Publish Status:", publishStatus);
-      // console.log("User Name:", userName, idGenerate);
+      console.log("User Name:", userName, idGenerate);
     }
   };
   

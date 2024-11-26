@@ -35,6 +35,36 @@ const UnpublishedStory = () => {
     fetchStories();
   }, []); // Empty dependency array ensures the fetch runs only once when the component mounts.
 console.log('asdfasf',storyData[3]?.title)
+
+
+
+
+
+
+
+fetch('https://www.medicoverhospitals.in/apis/get_story?storyid=209', {
+    method: 'GET',
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      return response.json(); 
+    })
+    .then((data) => {
+      console.log('StoryDataasdfasdfasf:', data); 
+    })
+    .catch((error) => {
+      console.error('There was a problem with the fetch operation:', error);
+    });
+
+
+
+
+
+
+
+
   return (
     <>
       <div className="d-flex justify-content-center" style={{ padding: "2rem" }}>
@@ -109,8 +139,15 @@ console.log('asdfasf',storyData[3]?.title)
               </tbody>
             </Table>
           </div>
+                    <div className="d-flex justify-content-between paginations align-items-center py-3 px-4">
+                        <span>Showing 1-5 of 20 </span>
+                        <div className="pagination-buttons d-flex" style={{gap:'5px'}}>
+                            <Button variant="outline-primary" size="sm">{"<"}</Button>
+                            <Button variant="outline-primary" size="sm">{">"}</Button>
+                        </div>
+                    </div>
         </Card>
-
+             
 
    
 

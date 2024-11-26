@@ -46,7 +46,7 @@ console.log('helloo')
 
                 navigate('/dashboard');
             } else {
-                setError(data.message || 'Login failed');
+                setError('Invalid username, password');
             }
         } catch (error) {
             setError('An error occurred during login. Please try again.');

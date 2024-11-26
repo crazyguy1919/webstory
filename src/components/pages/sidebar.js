@@ -24,7 +24,7 @@ console.log('sidebarfun',isSidebarVisible)
     <aside className={`sidebar ${isSidebarVisible ? 'isnotactive' : 'isActive'}`} style={{background:isLightTheme ? "" :'grey'}} >
       <div className="sidebar-header sidebar-logo-1 mb-3 px-3 pt-1">
         <Link to="/dashboard" className="sidebar-logo d-block pb-1 text-center">
-          <img src={isSidebarVisible ? Logoicon : Logoicon2} alt="Dashboard Logo" className="img-fluid" style={{ width: '90px',height:'55px' }} />
+          <img src={isSidebarVisible ? Logoicon : Logoicon2} alt="Dashboard Logo" className="img-fluid" style={{width:'72px'}} />
         </Link>
       </div>
       <ul className="list-unstyled pt-3 px-3 sidebar-nav-bars">

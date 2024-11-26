@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
 
 const AddStory = () => {
+  const [singlestorydata, setsinglestorydata] = useState("");
+
   const [stories, setStories] = useState([
     { image: null, title: "", description: "" },
     { image: null, title: "", description: "" },
@@ -11,67 +10,20 @@ const AddStory = () => {
     { image: null, title: "", description: "" },
     { image: null, title: "", description: "" },
   ]);
-
   const [seoTitle, setSeoTitle] = useState("");
   const [seoDescription, setSeoDescription] = useState("");
-  const [storyId, setStoryId] = useState("");
-  const [status, setStatus] = useState("active");
   const [category, setCategory] = useState("");
-
   const [url, setUrl] = useState("");
-  const [files, setFiles] = useState([]);
+  const [errors, setErrors] = useState({});
 
-
-  const handleFileChange = (event, index) => {
-    const selectedFiles = Array.from(event.target.files);
-  
-    const validFiles = selectedFiles.filter((file) => {
-      const isValidType = [
-        "image/jpeg", "image/png", "image/webp", "image/x-webp"
-      ].includes(file.type); // Allow jpeg, png, webp, and x-webp
-      const isValidSize = file.size <= 5 * 1024 * 1024; // 5MB limit
-      return isValidType && isValidSize;
-    });
-  
-    if (validFiles.length !== selectedFiles.length) {
-      toast.error("Some files are invalid. Only JPG, JPEG, PNG, and WEBP under 5MB are allowed.");
-    }
-  
-    const updatedFiles = [...files];
-    updatedFiles[index] = validFiles[0]; // Assign file to the correct index
-    setFiles(updatedFiles);
-  
+  const handleInputChange = (e, index, field) => {
     const updatedStories = [...stories];
-    if (validFiles.length > 0) {
-      updatedStories[index].image = validFiles[0];
-    }
+    updatedStories[index][field] = field === "image" ? e.target.files[0] : e.target.value;
     setStories(updatedStories);
   };
-  
-  
-
-  
-  
-  
-
-
-  const handleStatusChange = (e) => {
-    const selectedCategory = e.target.value;
-  
-
-    if (selectedCategory === "Category 1") {
-      setStatus("inactive");
-    } 
-
-    else if (selectedCategory === "Category 2") {
-      setStatus("active");
-    }
-  };
-
-
-
+let thestoryidis = 1732610574073
   useEffect(() => {
-    fetch("https://www.medicoverhospitals.in/apis/get_story?storyid=1001", {
+    fetch(`https://www.medicoverhospitals.in/apis/get_story?storyid=${thestoryidis}`, {
       method: "GET",
     })
       .then((response) => {
@@ -81,173 +33,101 @@ const AddStory = () => {
         return response.json();
       })
       .then((data) => {
-        if (data.status === "success" && data.data) {
-          const fetchedData = data.data;
-          setStoryId(fetchedData.storyid);
-  
-          // Ensure images are correctly handled by checking for URLs
-          const updatedStories = [
-            { image: fetchedData.img1 || null, title: fetchedData.img1t || "", description: fetchedData.img1d || "" },
-            { image: fetchedData.img2 || null, title: fetchedData.img2t || "", description: fetchedData.img2d || "" },
-            { image: fetchedData.img3 || null, title: fetchedData.img3t || "", description: fetchedData.img3d || "" },
-            { image: fetchedData.img4 || null, title: fetchedData.img4t || "", description: fetchedData.img4d || "" },
-            { image: fetchedData.img5 || null, title: fetchedData.img5t || "", description: fetchedData.img5d || "" },
-          ];
-          setStories(updatedStories);
-        }
-      })
-      .catch((error) => {
-        console.error("There was a problem with the fetch operation:", error);
-      });
-  }, []);
-  
+        const fetchedData = data.data;
 
-  const handleInputChange = (e, index, field) => {
-    const updatedStories = [...stories];
-    updatedStories[index][field] = e.target.value;
-    setStories(updatedStories);
-  };
+        // Map API data to state
+        setsinglestorydata(fetchedData);
 
-  const handleSeoInputChange = (e, field) => {
-    if (field === "seoTitle") {
-      setSeoTitle(e.target.value);
-    } else if (field === "seoDescription") {
-      setSeoDescription(e.target.value);
-    }
-  };
+        // Set SEO fields
+        setSeoTitle(fetchedData.title || "");
+        setSeoDescription(fetchedData.description || "");
+        setCategory(fetchedData.category || "");
+        setUrl(fetchedData.url || "");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log("Story ID at start:", storyId);
-    console.log("SEO Title:", seoTitle);
-  console.log("SEO Description:", seoDescription);
-  console.log("Category:", category);
-  console.log("URL:", url);
-  console.log("Stories:", stories);
-  console.log("Files:", files);
-  
-    const urlPattern = /^(https?:\/\/)?([a-z0-9]+[.]){1,2}[a-z]{2,5}(\/[^\s]*)?$/i;
-    if (!urlPattern.test(url)) {
-      toast.error("Please enter a valid URL");
-      return;
-    }
-  
-
-    if (files.length === 0) {
-      toast.error("Please select at least one file!");
-      return;
-    }
-  
-
-    const invalidStories = stories.some((story) => !story.title || !story.description || !story.image);
-if (invalidStories) {
-  toast.error("Please fill in all the story details (title, description, and image)!");
-  return;
-}
-
-  
-
-    const formData = new FormData();
-    formData.append("seoTitle", seoTitle);
-    formData.append("seoDescription", seoDescription);
-    formData.append("storyId", storyId);
-    formData.append("status", status);
-    formData.append("category", category);
-    formData.append("url", url);
-
-
-  
-    
-    stories.forEach((story, index) => {
-      if (files[index]) {
-        formData.append(`img${index + 1}`, files[index]); 
-      }
-      formData.append(`img${index + 1}t`, story.title); 
-      formData.append(`img${index + 1}d`, story.description); 
-    });
-    
-  
-   
-    const payload = {
-      storyid: storyId,
-      status: status,
-      title: seoTitle || "Default SEO Title",
-      description: seoDescription || "Default SEO Description",
-      img1: stories[0]?.image ? stories[0].image.name : "",
-      img1t: stories[0]?.title || "",
-      img1d: stories[0]?.description || "",
-      img2: stories[1]?.image ? stories[1].image.name : "",
-      img2t: stories[1]?.title || "",
-      img2d: stories[1]?.description || "",
-      img3: stories[2]?.image ? stories[2].image.name : "",
-      img3t: stories[2]?.title || "",
-      img3d: stories[2]?.description || "",
-      img4: stories[3]?.image ? stories[3].image.name : "",
-      img4t: stories[3]?.title || "",
-      img4d: stories[3]?.description || "",
-      img5: stories[4]?.image ? stories[4].image.name : "",
-      img5t: stories[4]?.title || "",
-      img5d: stories[4]?.description || "",
-    };
-    console.log("Payload to be sent:", payload);
-
-    stories.forEach((story, index) => {
-      payload[`img${index + 1}`] = story.image ? story.image.name : ""; 
-      payload[`img${index + 1}t`] = story.title || ""; 
-      payload[`img${index + 1}d`] = story.description || ""; 
-    });
-  
-    
-    try {
-      const response = await axios.post(
-        "https://www.medicoverhospitals.in/apis/webstorysingle",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
+        // Map images and their respective titles and descriptions into stories
+        setStories([
+          {
+            image: null,
+            title: fetchedData.img1t || "",
+            description: fetchedData.img1d || "",
           },
-        }
-      );
-  
-      console.log(response.data);
-      if (response.data.success) {
-        toast.success(response.data.message);
-      } else {
-        toast.error(response.data.message || "Upload failed");
+          {
+            image: null,
+            title: fetchedData.img2t || "",
+            description: fetchedData.img2d || "",
+          },
+          {
+            image: null,
+            title: fetchedData.img3t || "",
+            description: fetchedData.img3d || "",
+          },
+          {
+            image: null,
+            title: fetchedData.img4t || "",
+            description: fetchedData.img4d || "",
+          },
+          {
+            image: null,
+            title: fetchedData.img5t || "",
+            description: fetchedData.img5d || "",
+          },
+        ]);
+      })
+      .catch((error) => console.log(error.message));
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const validationErrors = {};
+
+    // Validate Stories
+    stories.forEach((story, index) => {
+      if (!story.title) {
+        validationErrors[`storyTitle${index}`] = "Title is required.";
       }
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Error uploading stories. Please try again.");
-      return; 
+      if (!story.description) {
+        validationErrors[`storyDescription${index}`] = "Description is required.";
+      }
+      if (!story.image) {
+        validationErrors[`storyImage${index}`] = "Image is required.";
+      }
+    });
+
+    // Validate SEO Title
+    if (!seoTitle) {
+      validationErrors.seoTitle = "SEO Title is required.";
     }
-  
-  
-    try {
-      const updateResponse = await fetch("https://www.medicoverhospitals.in/apis/webstory_update", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload), 
-      });
-  
-      if (!updateResponse.ok) {
-        throw new Error(`HTTP error! Status: ${updateResponse.status}`);
-      }
-  
-      const data = await updateResponse.json();
-      console.log("API response:", data);
-  
-      if (data.status === "success") {
-        toast.success("Stories updated successfully!");
-      } else {
-        toast.error("Failed to update stories: " + data.message);
-      }
-    } catch (error) {
-      console.error("Error submitting stories:", error);
-      toast.error("There was an error while submitting your stories.");
+
+    // Validate SEO Description
+    if (!seoDescription) {
+      validationErrors.seoDescription = "SEO Description is required.";
     }
+
+    // Validate Category
+    if (!category) {
+      validationErrors.category = "Category is required.";
+    }
+
+    // Validate URL
+    const urlPattern = /^(https?:\/\/)?([a-z0-9]+[.]){1,2}[a-z]{2,5}(\/[^\s]*)?$/i;
+    if (!url) {
+      validationErrors.url = "URL is required.";
+    } else if (!urlPattern.test(url)) {
+      validationErrors.url = "Please enter a valid URL.";
+    }
+
+    // Set errors if any
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      alert("Please correct the highlighted errors.");
+      return;
+    }
+
+    // Clear errors and proceed
+    setErrors({});
+    alert("Form submitted successfully!");
+    console.log("Form Data:", { stories, seoTitle, seoDescription, category, url });
   };
-  
 
   return (
     <div className="container my-4">
@@ -266,20 +146,11 @@ if (invalidStories) {
                     <input
                       type="file"
                       className="form-control"
-                      multiple
-                      onChange={(e) => handleFileChange(e, index)}
+                      onChange={(e) => handleInputChange(e, index, "image")}
                     />
-                    {story.image && (
-  <div className="mt-2">
-    <img
-      src={`https://www.medicoverhospitals.in/images/stories/${story.image}`} // Adjust base URL if necessary
-      alt={`Story ${index + 1}`}
-      style={{ maxWidth: "100%", maxHeight: "150px", objectFit: "cover" }}
-    />
-  </div>
-)}
-
-                    
+                    {errors[`storyImage${index}`] && (
+                      <small className="text-danger">{errors[`storyImage${index}`]}</small>
+                    )}
                   </div>
                   <div className="col-md-4">
                     <label className="form-label">Title Text</label>
@@ -290,6 +161,9 @@ if (invalidStories) {
                       value={story.title}
                       onChange={(e) => handleInputChange(e, index, "title")}
                     />
+                    {errors[`storyTitle${index}`] && (
+                      <small className="text-danger">{errors[`storyTitle${index}`]}</small>
+                    )}
                   </div>
                   <div className="col-md-4">
                     <label className="form-label">Description</label>
@@ -300,6 +174,9 @@ if (invalidStories) {
                       value={story.description}
                       onChange={(e) => handleInputChange(e, index, "description")}
                     />
+                    {errors[`storyDescription${index}`] && (
+                      <small className="text-danger">{errors[`storyDescription${index}`]}</small>
+                    )}
                   </div>
                 </div>
               </div>
@@ -321,11 +198,11 @@ if (invalidStories) {
                   <input
                     type="text"
                     className="form-control"
-                    name="seoTitle"
                     placeholder="SEO Title"
                     value={seoTitle}
-                    onChange={(e) => handleSeoInputChange(e, "seoTitle")}
+                    onChange={(e) => setSeoTitle(e.target.value)}
                   />
+                  {errors.seoTitle && <small className="text-danger">{errors.seoTitle}</small>}
                 </div>
                 <div className="col-md-6">
                   <label className="form-label">Category</label>
@@ -334,35 +211,25 @@ if (invalidStories) {
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
                   >
-                    <option value="">Select Category</option>
                     <option value="Category 1">Category 1</option>
                     <option value="Category 2">Category 2</option>
                     <option value="Category 3">Category 3</option>
                   </select>
+                  {errors.category && <small className="text-danger">{errors.category}</small>}
                 </div>
                 <div className="col-lg-6">
                   <label className="form-label">Description</label>
                   <textarea
                     className="form-control"
-                    name="seoDescription"
                     rows="4"
                     placeholder="SEO Description"
                     value={seoDescription}
-                    onChange={(e) => handleSeoInputChange(e, "seoDescription")}
+                    onChange={(e) => setSeoDescription(e.target.value)}
                   ></textarea>
+                  {errors.seoDescription && (
+                    <small className="text-danger">{errors.seoDescription}</small>
+                  )}
                 </div>
-                {/* Schema */}
-                <div className="col-lg-6">
-                <label className="form-label">Schema</label>
-                <textarea
-                  className="form-control"
-                  name="seoSchema"
-                  rows="4"
-             
-                  placeholder="Enter Schema..."
-                ></textarea>
-              </div>
-
                 <div className="col-lg-6">
                   <label className="form-label">URL</label>
                   <input
@@ -372,6 +239,7 @@ if (invalidStories) {
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                   />
+                  {errors.url && <small className="text-danger">{errors.url}</small>}
                 </div>
               </div>
             </div>
@@ -379,30 +247,11 @@ if (invalidStories) {
         </div>
       </div>
 
-
-      {/* Select Story */}
-      <div className="col-md-12">
-      <label className="form-label">Select Story </label>
-      <select
-  className="form-control form-select"
-  name="category"
-  onChange={handleStatusChange}
->
-  <option value="">Select Category</option>
-  <option value="Category 1">Published Story</option>
-  <option value="Category 2">Un-Published Story</option>
-
-</select>
-    </div>
-
-
       <div className="text-center mt-4">
         <button type="submit" className="btn btn-outline-success" onClick={handleSubmit}>
           Submit
         </button>
       </div>
-
-      <ToastContainer />
     </div>
   );
 };

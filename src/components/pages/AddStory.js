@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Addstory() {
@@ -11,6 +11,14 @@ function Addstory() {
     scategory: '',
     surl: '',
   });
+
+  const [userName,setuserName] = useState()
+ 
+
+  useEffect(() => {
+    setuserName(JSON.parse(sessionStorage.getItem('user')))
+     
+  }, []);
 
   // Function to handle adding new story fields
   const handleAddStory = () => {
@@ -31,10 +39,17 @@ function Addstory() {
     setSeo({ ...seo, [event.target.name]: event.target.value });
   };
 
+  const formattedDateTime = new Date().toISOString(); 
+  const idGenerate = Date.now(); 
+
   // Handle form submission
   const handleSubmit = async (event) => {
+
     event.preventDefault();
 
+
+
+console.log('sssssssssssssss',userName,idGenerate)
     // Check if all story fields are filled
     if (stories.some((story) => !story.file || !story.title || !story.description)) {
       alert('Please fill all fields for stories!');
@@ -61,7 +76,10 @@ function Addstory() {
       formData.append(key, value);
       
     });
-    formData.append('user','shankar');
+    formData.append('time', formattedDateTime)
+    formData.append('storyid',idGenerate);
+    formData.append('user',userName);
+
 
 
     try {
@@ -77,9 +95,13 @@ function Addstory() {
       const data = await response.json();
 
       if (data.success) {
-        alert('Stories and SEO details uploaded successfully!');
+        alert('Data uploaded successfully!');
         
-        console.log(data);
+        console.log(data,'asdfasdfsadf',formData);
+        for (const [key, value] of formData.entries()) {
+          console.log('aaaaaaaaaaaaaaaaaaa',`${key}:`, value);
+        }
+
       } else {
         alert('File upload failed!');
       }
@@ -117,9 +139,9 @@ function Addstory() {
         {stories.map((story, index) => (
           <div className="mb-3" key={index}>
             <h4>Story {index + 1}</h4>
-            <div className="row">
+            <div className="row stories-adding">
               <div className="col-md-4">
-                <label className="form-label">Image {index + 1}</label>
+                <label className="form-label">Add Image</label>
                 <input
                   type="file"
                   className="form-control"
@@ -161,72 +183,79 @@ function Addstory() {
 
         {/* SEO Fields */}
         <h4>SEO Elements</h4>
+
+       <div className='seo-section'>  
         <div className="row mb-3">
-          <div className="col-md-6">
-            <label className="form-label">Title Text</label>
-            <input
-              type="text"
-              className="form-control"
-              name="stitle"
-              value={seo.stitle}
-              onChange={handleSeoChange}
-              placeholder="Enter Title Text"
-            />
+            <div className="col-md-6">
+              <label className="form-label">Title Text</label>
+              <input
+                type="text"
+                className="form-control"
+                name="stitle"
+                value={seo.stitle}
+                onChange={handleSeoChange}
+                placeholder="Enter Title Text"
+              />
+            </div>
+            <div className="col-md-6">
+              <label className="form-label">Category</label>
+              <select
+                className="form-select"
+                name="scategory"
+                value={seo.scategory}
+                onChange={handleSeoChange}
+              >
+                <option value="">Select Category</option>
+                <option value="health">Health</option>
+                <option value="fitness">Fitness</option>
+                <option value="wellness">Wellness</option>
+              </select>
+            </div>
           </div>
-          <div className="col-md-6">
-            <label className="form-label">Category</label>
-            <select
-              className="form-select"
-              name="scategory"
-              value={seo.scategory}
-              onChange={handleSeoChange}
-            >
-              <option value="">Select Category</option>
-              <option value="health">Health</option>
-              <option value="fitness">Fitness</option>
-              <option value="wellness">Wellness</option>
-            </select>
+          <div className="row mb-3">
+            <div className="col-md-6">
+              <label className="form-label">Description</label>
+              <input
+                type="text"
+                className="form-control"
+                name="sdec"
+                value={seo.sdec}
+                onChange={handleSeoChange}
+                placeholder="Enter a Description..."
+              />
+            </div>
+            <div className="col-md-6">
+              <label className="form-label">Schema</label>
+              <input
+                type="text"
+                className="form-control"
+                name="sschema"
+                value={seo.sschema}
+                onChange={handleSeoChange}
+                placeholder="Enter Schema..."
+              />
+            </div>
           </div>
-        </div>
-        <div className="row mb-3">
-          <div className="col-md-6">
-            <label className="form-label">Description</label>
-            <input
-              type="text"
-              className="form-control"
-              name="sdec"
-              value={seo.sdec}
-              onChange={handleSeoChange}
-              placeholder="Enter a Description..."
-            />
+          <div className="row mb-3">
+            <div className="col-md-6">
+              <label className="form-label">URL</label>
+              <input
+                type="text"
+                className="form-control"
+                name="surl"
+                value={seo.surl}
+                onChange={handleSeoChange}
+                placeholder="Enter URL"
+              />
+            </div>
           </div>
-          <div className="col-md-6">
-            <label className="form-label">Schema</label>
-            <input
-              type="text"
-              className="form-control"
-              name="sschema"
-              value={seo.sschema}
-              onChange={handleSeoChange}
-              placeholder="Enter Schema..."
-            />
-          </div>
-        </div>
-        <div className="row mb-3">
-          <div className="col-md-12">
-            <label className="form-label">URL</label>
-            <input
-              type="text"
-              className="form-control"
-              name="surl"
-              value={seo.surl}
-              onChange={handleSeoChange}
-              placeholder="Enter URL"
-            />
-          </div>
-        </div>
+       </div>
 
         {/* Submit Button */}
+        
+        <button type="submit" className="btn btn-primary m-4">
+          Preview
+        </button>
         <button type="submit" className="btn btn-success">
           Submit
         </button>
