@@ -94,7 +94,9 @@ const PublishedStory = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {[1, 2, 3, 4, 5].map((id) => (
+                            {paginatedData?.length > 0 ? (
+                               paginatedData.map((story, id) => (
+                                // {[1, 2, 3, 4, 5].map((id) => (
                                     <tr key={id}>
                                         <td className="pubtb img">
                                             <img
@@ -128,7 +130,14 @@ const PublishedStory = () => {
                                             </div>
                                         </td>
                                     </tr>
-                                ))}
+                                ))
+                            ) : (
+                              <tr>
+                    <td colSpan="5" className="text-center">
+                      No stories available for this page.
+                    </td>
+                  </tr>
+                )}
                             </tbody>
                         </Table>
                     </div>
