@@ -1,11 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import '../styles/dashboard.css';
+import { useNavigate } from 'react-router-dom';
+// import Graph from '../pages/graph'
 
+
+// const useNavigate = 
 const StatCard = ({ title, count, icon, bgColor, trendText, trendIcon, trendColor, iconBgColor,indexval}) => {''
   console.log(trendIcon,'adfasdf')
+  const navigate = useNavigate();
+  console.log('asdfasdf',indexval)
+
+  const handleDashbordClick =()=>{
+    // navigate('/add-story')
+    if(indexval==0){
+      navigate('/add-story')
+    }
+    if(indexval==1){
+      navigate('/published')
+    }
+    if(indexval==2){
+      navigate('/unpublished')
+    }
+    if(indexval==3){
+      navigate('/categories')
+    }
+    if(indexval==4){
+      navigate('/liked')
+    }
+    if(indexval==5){
+      navigate('/shared')
+    }
+    if(indexval==6){
+      navigate('/views')
+    }
+    if(indexval==7){
+      navigate('/saved')
+    }
+
+
+    console.log('asdfasdf',indexval)
+  }
   return (
-    <div className="col p-2 m-0">
+    <div className="col p-2 m-0" onClick={handleDashbordClick} style={{cursor: 'pointer'}}>
       <div className={`card shadow-none border ${bgColor} h-100`}>
         <div className={`card-body card-body-section${indexval+1} `}>
           <div className="d-flex flex-wrap align-items-center justify-content-between gap-3">
@@ -31,10 +68,42 @@ const StatCard = ({ title, count, icon, bgColor, trendText, trendIcon, trendColo
 };
 
 const Dashboard = () => {
+
+
+  const [allStories,setallStories] = useState('')
+
+
+
+  useEffect(() => {
+    const fetchStories = async () => {
+      try {
+        const response = await fetch(
+          "https://www.medicoverhospitals.in/apis/getallstories",
+          { method: "GET" }
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            `Network response was not ok: ${response.statusText}`
+          );
+        }
+
+        const data = await response.json();
+        console.log("Fetched Story Data:", data);
+        setallStories(data.data);
+      } catch (err) {
+        console.error("Error fetching stories:", err);
+        console.log(err.message);
+      }
+    };
+
+    fetchStories();
+  }, []); 
+  
   const statsData = [
     {
       title: "Total Stories",
-      count: "40,689",
+      count: allStories.length,
       icon: "ri-file-image-line",
       bgColor: "bg-gradient-start-1",
       trendText: "135",
@@ -42,7 +111,7 @@ const Dashboard = () => {
       trendColor: "text-success-main"
     },
     {
-      title: "Published Stories",
+      title: "Published",
       count: "28,293",
       icon: "ri-book-2-line",
       bgColor: "bg-gradient-start-2",
@@ -52,7 +121,7 @@ const Dashboard = () => {
     },
     {
       title: "UnPublished",
-      count: "12,780",
+      count: allStories.length,
       icon: "ri-route-line",
       bgColor: "bg-gradient-start-3",
       trendText: "85",
@@ -139,6 +208,7 @@ const Dashboard = () => {
         ))}
       </div>
     </div>
+    {/* <Graph /> */}
     </div>
   );
 };
