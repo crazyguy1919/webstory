@@ -14,6 +14,8 @@ const UnpublishedStory = ({ stories }) => {
   const [storyData, setStoryData] = useState([]);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
   const rowsPerPage = 5;
 
   const totalPages = Math.ceil(storyData.length / rowsPerPage);
@@ -34,6 +36,7 @@ const UnpublishedStory = ({ stories }) => {
 
         const data = await response.json();
         setStoryData(data.data);
+        setFilteredData(data.data);
       } catch (err) {
         console.error("Error fetching stories:", err);
         setError(err.message);
@@ -47,6 +50,19 @@ const UnpublishedStory = ({ stories }) => {
     navigate(`/edit-story/${story.id}`, { state: { story } });
   };
 
+
+  const handleSearch = (e) => {
+    const term = e.target.value.toLowerCase();
+    setSearchTerm(term);
+    const filtered = storyData.filter(
+      (story) =>
+        story.title?.toLowerCase().includes(term) ||
+        story.status?.toLowerCase().includes(term)
+    );
+    setFilteredData(filtered);
+    setCurrentPage(1); 
+  };
+
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
@@ -55,7 +71,7 @@ const UnpublishedStory = ({ stories }) => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
-  const paginatedData = storyData.slice(
+  const paginatedData = filteredData.slice(
     (currentPage - 1) * rowsPerPage,
     currentPage * rowsPerPage
   );
@@ -79,8 +95,8 @@ const UnpublishedStory = ({ stories }) => {
               <Filter className="me-2" /> Filter
             </Button>
             <Button variant="primary" size="sm" className="me-3 custom-btn">
-              <Plus className="me-2" /> 
-              <Link to='/add-story' className="custom-btn1">Add New Story</Link>
+              
+              <Link to='/add-story' className="custom-btn1"><Plus className="me-2" /> Add New Story</Link>
             </Button>
             <div
               className="d-flex justify-content-center"
@@ -89,6 +105,8 @@ const UnpublishedStory = ({ stories }) => {
               <Form.Control
                 type="text"
                 placeholder="Search"
+                value={searchTerm}
+                onChange={handleSearch} 
                 style={{ width: "130px" }}
                 className="me-3"
               />
