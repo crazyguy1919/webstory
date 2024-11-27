@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function Shared() {
   return (
-    <div>Shared</div>
+    <div>Hey! You're in shared stories</div>
   )
 }
