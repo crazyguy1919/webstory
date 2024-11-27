@@ -13,28 +13,28 @@ const StatCard = ({ title, count, icon, bgColor, trendText, trendIcon, trendColo
 
   const handleDashbordClick =()=>{
     // navigate('/add-story')
-    if(indexval==0){
+    if(indexval===0){
       navigate('/add-story')
     }
-    if(indexval==1){
+    if(indexval===1){
       navigate('/published')
     }
-    if(indexval==2){
+    if(indexval===2){
       navigate('/unpublished')
     }
-    if(indexval==3){
+    if(indexval===3){
       navigate('/categories')
     }
-    if(indexval==4){
+    if(indexval===4){
       navigate('/liked')
     }
-    if(indexval==5){
+    if(indexval===5){
       navigate('/shared')
     }
-    if(indexval==6){
+    if(indexval===6){
       navigate('/views')
     }
-    if(indexval==7){
+    if(indexval===7){
       navigate('/saved')
     }
 
@@ -57,7 +57,7 @@ const StatCard = ({ title, count, icon, bgColor, trendText, trendIcon, trendColo
           <p className="fw-medium text-sm text-primary-light mb-0 d-flex align-items-center gap-2 yesterday-content"
            >
             {<span className={`d-inline-flex align-items-center gap-1 ${trendColor}`}>
-              <Icon icon={trendIcon} style={{color: trendIcon =="bxs:up-arrow" ? "green" : "red"}} className="text-xs"  /><span style={{color: trendIcon =="bxs:up-arrow" ? "green" : "red"}}>{trendText}</span> 
+              <Icon icon={trendIcon} style={{color: trendIcon ==="bxs:up-arrow" ? "green" : "red"}} className="text-xs"  /><span style={{color: trendIcon ==="bxs:up-arrow" ? "green" : "red"}}>{trendText}</span> 
             </span>}
             Yesterday Views
           </p>
