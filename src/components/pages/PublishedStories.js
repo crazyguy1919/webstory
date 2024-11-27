@@ -7,8 +7,40 @@ import { Link } from 'react-router-dom'
 import '../styles/PublishedStory.css';
 
 const PublishedStory = () => {
+
+    const storyData = [
+        { id: 1, name: "Story 1", status: "Published" },
+        { id: 2, name: "Story 2", status: "Draft" },
+        { id: 3, name: "Story 3", status: "Published" },
+        { id: 4, name: "Story 4", status: "Published" },
+        { id: 5, name: "Story 5", status: "Draft" },
+        { id: 6, name: "Story 6", status: "Published" },
+        { id: 7, name: "Story 7", status: "Published" },
+    ];
+
+    const [ currentPage, setCurrentPage ] = useState(1);
+    const rowsPerPage = 5;
+
+    const totalPages = Math.ceil( storyData.length / rowsPerPage );
+
+    const handlePrevPage = () =>{
+        if(currentPage > 1) setCurrentPage( currentPage - 1 );
+    }
+
+    const handleNextPage = () =>{
+        if(currentPage < totalPages) setCurrentPage( currentPage +1 );
+    }
+
+    const paginatedData = storyData.slice(
+        (currentPage - 1) * rowsPerPage,
+        currentPage * rowsPerPage
+    )
+
+    
+
+
     const [stories, setStories] = useState([1, 2, 3, 4]); 
-    const totalStories = 78;
+    
   
     const handleView = (storyId) => {
         console.log(`Viewing story with ID: ${storyId}`);
@@ -102,10 +134,28 @@ const PublishedStory = () => {
                     </div>
 
                     <div className="d-flex justify-content-between paginations align-items-center py-3 px-4">
-                        <span>Showing 1-{stories.length} of {totalStories}</span>
-                        <div className="pagination-buttons d-flex" style={{gap:'5px'}}>
-                            <Button variant="outline-primary" size="sm">{"<"}</Button>
-                            <Button variant="outline-primary" size="sm">{">"}</Button>
+                        <span>
+                            Showing {(currentPage - 1) * rowsPerPage + 1}-
+                            {Math.min(currentPage * rowsPerPage, storyData.length)} of{" "}
+                            {storyData.length}
+                        </span>
+                        <div className="pagination-buttons d-flex" style={{ gap: "5px" }}>
+                        <Button
+                          variant="outline-primary"
+                          size="sm"
+                          onClick={handlePrevPage}
+                          disabled={currentPage === 1}
+                         >
+                          {"<"}
+                        </Button>
+                        <Button
+                          variant="outline-primary"
+                          size="sm"
+                          onClick={handleNextPage}
+                          disabled={currentPage === totalPages}
+                          >
+                          {">"}
+                        </Button>
                         </div>
                     </div>
 
