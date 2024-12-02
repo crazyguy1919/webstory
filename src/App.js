@@ -24,6 +24,7 @@ function AppContent() {
 
   const [isLightTheme, setIsLightTheme] = useState(true);
 
+  const [foreditId,setforedIt] = useState('appp')
 
 
   useEffect(() => {
@@ -55,15 +56,15 @@ function AppContent() {
     <div className="app-container" style={{ background:isLightTheme ? 'rgb(245,246,250)' : 'grey' }}>
       {!isLoginPage && <Sidebar isSidebarVisible={isSidebarVisible} isLightTheme={isLightTheme}/>}
       <div className="content right-side-section">
-        {!isLoginPage && <Header eventSidebarClick={eventSidebarClick} toggleTheme={toggleTheme} isLightTheme={isLightTheme} />}
+        {!isLoginPage && <Header eventSidebarClick={eventSidebarClick} toggleTheme={toggleTheme} isLightTheme={isLightTheme}/>}
         <div className="main-section">
           <Routes>
           <Route path="/" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/add-story" element={<AddStory />} />
-            <Route path="/edit-story" element={<EditStory />} />
+            <Route path="/edit-story" element={<EditStory foreditId={foreditId}/>} />
             <Route path="/published" element={<PublishedStories />} />
-            <Route path="/unpublished" element={<UnpublishedStories />} />
+            <Route path="/unpublished" element={<UnpublishedStories setforedIt={setforedIt}/>} />
             <Route path="/categories" element={<Categories />} />
             <Route path="/add-category" element={<AddCategory />} />
             <Route path="/reports" element={<Reports />} />

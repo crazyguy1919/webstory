@@ -76,7 +76,7 @@ console.log('sssssssssssssss',userName,idGenerate)
       formData.append(key, value);
       
     });
-    formData.append('time', formattedDateTime)
+    // formData.append('time', formattedDateTime)
     formData.append('storyid',idGenerate);
     formData.append('user',userName);
 
@@ -97,7 +97,7 @@ console.log('sssssssssssssss',userName,idGenerate)
       if (data.success) {
         alert('Data uploaded successfully!');
         
-        console.log(data,'asdfasdfsadf',formData);
+        // console.log(data,'asdfasdfsadf',formData);
         for (const [key, value] of formData.entries()) {
           console.log('aaaaaaaaaaaaaaaaaaa',`${key}:`, value);
         }

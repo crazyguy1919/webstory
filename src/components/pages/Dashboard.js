@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import '../styles/dashboard.css';
 import Graph from '../pages/graph'
@@ -6,6 +6,7 @@ import Graph from '../pages/graph'
 
 const StatCard = ({ title, count, icon, bgColor, trendText, trendIcon, trendColor, iconBgColor,indexval}) => {''
   console.log(trendIcon,'adfasdf')
+  
   return (
     <div className="col p-2 m-0">
       <div className={`card shadow-none border ${bgColor} h-100`}>
@@ -33,10 +34,42 @@ const StatCard = ({ title, count, icon, bgColor, trendText, trendIcon, trendColo
 };
 
 const Dashboard = () => {
+
+
+  const [allStories,setallStories] = useState('')
+
+
+
+  useEffect(() => {
+    const fetchStories = async () => {
+      try {
+        const response = await fetch(
+          "https://www.medicoverhospitals.in/apis/getallstories",
+          { method: "GET" }
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            `Network response was not ok: ${response.statusText}`
+          );
+        }
+
+        const data = await response.json();
+        console.log("Fetched Story Data:", data);
+        setallStories(data.data);
+      } catch (err) {
+        console.error("Error fetching stories:", err);
+        console.log(err.message);
+      }
+    };
+
+    fetchStories();
+  }, []); 
+
   const statsData = [
     {
       title: "Total Stories",
-      count: "40,689",
+      count: allStories?.length || 0,
       icon: "ri-file-image-line",
       bgColor: "bg-gradient-start-1",
       trendText: "135",
@@ -54,7 +87,7 @@ const Dashboard = () => {
     },
     {
       title: "UnPublished",
-      count: "12,780",
+      count: allStories?.length || 0,
       icon: "ri-route-line",
       bgColor: "bg-gradient-start-3",
       trendText: "85",
@@ -136,7 +169,7 @@ const Dashboard = () => {
             trendText={stat.trendText}
             trendIcon={stat.trendIcon}
             trendColor={stat.trendColor}
-            iconBgColor={iconBackgroundColors[index % iconBackgroundColors.length]} 
+            iconBgColor={iconBackgroundColors[index % iconBackgroundColors?.length]} 
           />
         ))}
       </div>

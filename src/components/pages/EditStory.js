@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
+import '../styles/editstory.css'
 
-const AddStory = () => {
+const AddStory = ({foreditId}) => {
   const [singlestorydata, setsinglestorydata] = useState("");
+  const [userName,setuserName] = useState()
 
+  useEffect(() => {
+    setuserName(JSON.parse(sessionStorage.getItem('user')))
+     
+  }, []);
   const [stories, setStories] = useState([
     { image: null, title: "", description: "" },
     { image: null, title: "", description: "" },
@@ -21,8 +27,10 @@ const AddStory = () => {
     updatedStories[index][field] = field === "image" ? e.target.files[0] : e.target.value;
     setStories(updatedStories);
   };
-let thestoryidis = 1732610574073
+let thestoryidis = foreditId
   useEffect(() => {
+    console.log('aaaaaaaaaaaaaaaaaaaaaaasdfsdfsdfs',foreditId)
+
     fetch(`https://www.medicoverhospitals.in/apis/get_story?storyid=${thestoryidis}`, {
       method: "GET",
     })
@@ -37,7 +45,7 @@ let thestoryidis = 1732610574073
 
         // Map API data to state
         setsinglestorydata(fetchedData);
-
+console.log('adfasfdddddddddddddddddddddddd',fetchedData)
         // Set SEO fields
         setSeoTitle(fetchedData.title || "");
         setSeoDescription(fetchedData.description || "");
@@ -47,27 +55,27 @@ let thestoryidis = 1732610574073
         // Map images and their respective titles and descriptions into stories
         setStories([
           {
-            image: null,
+            image: fetchedData.img1,
             title: fetchedData.img1t || "",
             description: fetchedData.img1d || "",
           },
           {
-            image: null,
+            image: fetchedData.img2,
             title: fetchedData.img2t || "",
             description: fetchedData.img2d || "",
           },
           {
-            image: null,
+            image: fetchedData.img3,
             title: fetchedData.img3t || "",
             description: fetchedData.img3d || "",
           },
           {
-            image: null,
+            image: fetchedData.img4,
             title: fetchedData.img4t || "",
             description: fetchedData.img4d || "",
           },
           {
-            image: null,
+            image: fetchedData.img5,
             title: fetchedData.img5t || "",
             description: fetchedData.img5d || "",
           },
@@ -76,7 +84,7 @@ let thestoryidis = 1732610574073
       .catch((error) => console.log(error.message));
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     const validationErrors = {};
 
@@ -88,9 +96,9 @@ let thestoryidis = 1732610574073
       if (!story.description) {
         validationErrors[`storyDescription${index}`] = "Description is required.";
       }
-      if (!story.image) {
-        validationErrors[`storyImage${index}`] = "Image is required.";
-      }
+      // if (!story.image) {
+      //   validationErrors[`storyImage${index}`] = "Image is required.";
+      // }
     });
 
     // Validate SEO Title
@@ -126,9 +134,73 @@ let thestoryidis = 1732610574073
     // Clear errors and proceed
     setErrors({});
     alert("Form submitted successfully!");
+
+console.log('asdfasdfllllllllllllllllllllll',stories[0].title,
+
+  seoTitle,
+  seoDescription,
+  category,
+  url)
+
+    try {
+      const response = await fetch("https://www.medicoverhospitals.in/apis/webstory_update", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify( 
+          {storyid:thestoryidis,
+          img1:stories[0].image,
+          img1t:stories[0].title,
+          img1d:stories[0].description,
+          img2:stories[1].image,
+          img2t:stories[1].title,
+          img2d:stories[1].description,
+          img3:stories[2].image,
+          img3t:stories[2].title,
+          img3d:stories[2].description,
+          img4:stories[3].image,
+          img4t:stories[3].title,
+          img4d:stories[3].description,
+          img5:stories[4].image,
+          img5t:stories[4].title,
+          img5d:stories[4].description,
+          title:seoTitle,
+          description:seoDescription,
+          // time:"asdfasdf",
+          user:userName,
+          url:url,
+          }),
+      });
+  
+      // Handle response
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      console.log("Response received:sssssssssssssssssssssssssssss", data);
+    } catch (error) {
+      console.error("Error submitting data:rrrrrrrrrrrrrrrrrrrrrrrrrrrr", error);
+    }
+
+
     console.log("Form Data:", { stories, seoTitle, seoDescription, category, url });
   };
 
+
+  console.log("Form Data:", {
+    ...stories.reduce((acc, story, index) => {
+      acc[`story${index + 1}`] = story.title; 
+      return acc;
+    }, {}),
+    seoTitle,
+    seoDescription,
+    category,
+    url
+  });
+  
+  console.log('asdasdf,',stories)
   return (
     <div className="container my-4">
       <h3>Edit Stories</h3>
@@ -141,17 +213,22 @@ let thestoryidis = 1732610574073
               </div>
               <div className="card-body">
                 <div className="row gy-3">
-                  <div className="col-md-4">
-                    <label className="form-label">Add Image</label>
-                    <input
-                      type="file"
-                      className="form-control"
-                      onChange={(e) => handleInputChange(e, index, "image")}
-                    />
-                    {errors[`storyImage${index}`] && (
-                      <small className="text-danger">{errors[`storyImage${index}`]}</small>
-                    )}
-                  </div>
+                                  <div className="col-md-2">
+                                  <label className="form-label">Add Image</label>
+                                  <input
+                                    type="file"
+                                    className="form-control custom-file-input-unique"
+                                    onChange={(e) => handleInputChange(e, index, "image")} 
+                                  /> 
+                                  {/* {errors[`storyImage${index}`] && (
+                                    <small className="text-danger">{errors[`storyImage${index}`]}</small>
+                                  )} */}
+                                </div>
+                                <div className="col-md-2 d-flex align-items-end">
+                                  <p className="m-0 mb-2">{story?.image}</p>
+                                  </div>
+
+                                
                   <div className="col-md-4">
                     <label className="form-label">Title Text</label>
                     <input
