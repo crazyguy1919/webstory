@@ -63,8 +63,8 @@ function AppContent() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/add-story" element={<AddStory />} />
             <Route path="/edit-story" element={<EditStory foreditId={foreditId}/>} />
-            <Route path="/published" element={<PublishedStories />} />
-            <Route path="/unpublished" element={<UnpublishedStories setforedIt={setforedIt}/>} />
+            <Route path="/published" element={<PublishedStories setforedIt={setforedIt} foreditId={foreditId}/>} />
+            <Route path="/unpublished" element={<UnpublishedStories setforedIt={setforedIt} foreditId={foreditId}/>} />
             <Route path="/categories" element={<Categories />} />
             <Route path="/add-category" element={<AddCategory />} />
             <Route path="/reports" element={<Reports />} />

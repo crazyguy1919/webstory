@@ -47,7 +47,7 @@ const Categories = () => {
                 <h5 className="card-title text-lg text-primary-light mb-6">
                   {category.title}
                 </h5>
-                <button className="btn px-4 mt-5 view-btn">View</button>
+                <button className="btn px-4 mt-3 view-btn">View</button>
               </div>
             </div>
           </div>

@@ -5,7 +5,7 @@ import Graph from '../pages/graph'
 
 
 const StatCard = ({ title, count, icon, bgColor, trendText, trendIcon, trendColor, iconBgColor,indexval}) => {''
-  console.log(trendIcon,'adfasdf')
+
   
   return (
     <div className="col p-2 m-0">
@@ -55,7 +55,7 @@ const Dashboard = () => {
         }
 
         const data = await response.json();
-        console.log("Fetched Story Data:", data);
+        // console.log("Fetched Story Data:", data);
         setallStories(data.data);
       } catch (err) {
         console.error("Error fetching stories:", err);
@@ -65,6 +65,8 @@ const Dashboard = () => {
 
     fetchStories();
   }, []); 
+
+console.log(allStories)
 
   const statsData = [
     {
@@ -159,6 +161,7 @@ const Dashboard = () => {
       <h3 className='m-3'>Dashboard</h3>
       <div className="row row-cols-xxxl-4 row-cols-lg-4 row-cols-sm-2 row-cols-1 gy-4">
         {statsData.map((stat, index) => (
+        
           <StatCard
             key={index}
             indexval={index}

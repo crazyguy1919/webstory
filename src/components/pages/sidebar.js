@@ -50,7 +50,7 @@ console.log('sidebarfun',isSidebarVisible)
                 <Icon icon="ri:picture-in-picture-exit-fill" className="me-2" /> {isSidebarVisible ? "Add Stories" : ''}
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
                 to="/edit-story"
                 className={`d-flex align-items-center text-dark side-links ${activeTab === 'edit-story' ? 'bg-primary text-white' : ''}`}
@@ -59,7 +59,7 @@ console.log('sidebarfun',isSidebarVisible)
               >
                 <Icon icon="ri:edit-box-line" className="me-2" />{isSidebarVisible ? " Edit Stories" : ""}
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link
                 to="/published"

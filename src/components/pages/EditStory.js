@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import '../styles/editstory.css'
+import { styled } from "@mui/material";
 
 const AddStory = ({foreditId}) => {
   const [singlestorydata, setsinglestorydata] = useState("");
   const [userName,setuserName] = useState()
+  const [categories, setCategories] = useState();
+
 
   useEffect(() => {
     setuserName(JSON.parse(sessionStorage.getItem('user')))
@@ -26,6 +29,7 @@ const AddStory = ({foreditId}) => {
     const updatedStories = [...stories];
     updatedStories[index][field] = field === "image" ? e.target.files[0] : e.target.value;
     setStories(updatedStories);
+    console.log('lllllllllllllllllllllllllaaaaa',stories)
   };
 let thestoryidis = foreditId
   useEffect(() => {
@@ -45,7 +49,7 @@ let thestoryidis = foreditId
 
         // Map API data to state
         setsinglestorydata(fetchedData);
-console.log('adfasfdddddddddddddddddddddddd',fetchedData)
+// console.log('adfasfdddddddddddddddddddddddd',fetchedData)
         // Set SEO fields
         setSeoTitle(fetchedData.title || "");
         setSeoDescription(fetchedData.description || "");
@@ -172,14 +176,16 @@ console.log('asdfasdfllllllllllllllllllllll',stories[0].title,
           url:url,
           }),
       });
-  
+      console.log("Response received:sssssssssssssssssssssssssssss", stories[0].image);
+
+
       // Handle response
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
   
       const data = await response.json();
-      console.log("Response received:sssssssssssssssssssssssssssss", data);
+
     } catch (error) {
       console.error("Error submitting data:rrrrrrrrrrrrrrrrrrrrrrrrrrrr", error);
     }
@@ -201,6 +207,38 @@ console.log('asdfasdfllllllllllllllllllllll',stories[0].title,
   });
   
   console.log('asdasdf,',stories)
+
+
+
+
+
+
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+        const apiUrl = "https://www.medicoverhospitals.in/apis/category";
+
+        try {
+            const response = await fetch(apiUrl);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const data = await response.json();
+            setCategories(data.data); // Store data in state
+        } catch (error) {
+            console.log(error.message); // Handle error
+        }
+    };
+
+    fetchCategories();
+}, []); // Empty dependency array ensures the effect runs only once
+
+
+
+
+
+
+
   return (
     <div className="container my-4">
       <h3>Edit Stories</h3>
@@ -213,20 +251,24 @@ console.log('asdfasdfllllllllllllllllllllll',stories[0].title,
               </div>
               <div className="card-body">
                 <div className="row gy-3">
+                                 <div className="col-md-1 d-flex justify-content-center align-items-center">
+                                      <img   src={story.image instanceof File
+                                       ? URL.createObjectURL(story.image)
+                                       : `https://www.medicoverhospitals.in/apis/uploads/${story.image}`}  style={{width:'40px',height:'40px'}}/>
+                                      
+                                  </div>
                                   <div className="col-md-2">
-                                  <label className="form-label">Add Image</label>
+                                  <label className="form-label">Add Image </label>
                                   <input
                                     type="file"
                                     className="form-control custom-file-input-unique"
                                     onChange={(e) => handleInputChange(e, index, "image")} 
                                   /> 
-                                  {/* {errors[`storyImage${index}`] && (
-                                    <small className="text-danger">{errors[`storyImage${index}`]}</small>
-                                  )} */}
+                                  
+                                  
                                 </div>
-                                <div className="col-md-2 d-flex align-items-end">
-                                  <p className="m-0 mb-2">{story?.image}</p>
-                                  </div>
+                                 
+                               
 
                                 
                   <div className="col-md-4">
@@ -288,9 +330,13 @@ console.log('asdfasdfllllllllllllllllllllll',stories[0].title,
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
                   >
-                    <option value="Category 1">Category 1</option>
-                    <option value="Category 2">Category 2</option>
-                    <option value="Category 3">Category 3</option>
+                    <option value="">Select Category</option>
+                      {categories?.map((category, index) => (
+                      <option key={index} className="category-item">
+                          
+                          {category?.category}
+                      </option>
+                      ))}
                   </select>
                   {errors.category && <small className="text-danger">{errors.category}</small>}
                 </div>

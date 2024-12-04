@@ -4,10 +4,12 @@ import Table from "react-bootstrap/Table";
 import { Filter, Plus, Eye, Pencil, Trash } from "react-bootstrap-icons";
 import categoryimg1 from "../../assets/images/story1.png";
 import { Link } from "react-router-dom";
+import '../styles/unpublished.css'
 
-const UnpublishedStory = ({ setforedIt }) => {
+const UnpublishedStory = ({ setforedIt}) => {
   const [storyData, setStoryData] = useState([]);
   const [error, setError] = useState(null);
+  const [realsdata,setRealsdata] = useState('')
 
   // Fetch stories inside useEffect
   useEffect(() => {
@@ -38,6 +40,7 @@ const UnpublishedStory = ({ setforedIt }) => {
 
   // Handle status switch toggle
   const statusClick = async (id, storystatus, e) => {
+    alert('Story is Published')
     const newStatus = e.target.checked ? "active" : "in-active";
     console.log("Story ID:", id);
     console.log("Previous Status:", storystatus);
@@ -77,8 +80,8 @@ const UnpublishedStory = ({ setforedIt }) => {
   };
 
   const editClick = async (id) => {
-    setforedIt(id);
 
+    setforedIt(id);
     try {
       const response = await fetch(
         `https://www.medicoverhospitals.in/apis/get_story?storyid=${id}`,
@@ -93,13 +96,56 @@ const UnpublishedStory = ({ setforedIt }) => {
 
       const data = await response.json();
       console.log("Fetched story details:", data);
+      setRealsdata(data.data)
       return data;
     } catch (error) {
       console.error("Error fetching story details:", error);
       throw error;
     }
+
   };
 
+console.log('qqqqqqqqqqqqqqqq',realsdata)
+
+
+  const reelsData = [
+    {
+    
+      image: `https://www.medicoverhospitals.in/apis/uploads/${realsdata.img1 ==='' ? 'p1.png' : realsdata.img1}` ,
+      title: realsdata.img1t,
+      description: realsdata.img1d,
+    },
+    {
+    
+      image: `https://www.medicoverhospitals.in/apis/uploads/${realsdata.img2 ==='' ? 'p2.png' : realsdata.img2}`,
+      title: realsdata.img2t,
+      description: realsdata.img2d,
+    },
+    {
+     
+      image: `https://www.medicoverhospitals.in/apis/uploads/${realsdata.img3 ==='' ? 'p4.png' : realsdata.img3}`,
+      title: realsdata.img3t,
+      description: realsdata.img3d,
+    },
+    {
+   
+      image: `https://www.medicoverhospitals.in/apis/uploads/${realsdata.img4 ==='' ? 'p2.png' : realsdata.img4}`,
+      title: realsdata.img4t,
+      description: realsdata.img4d,
+    },
+    {
+    
+      image: `https://www.medicoverhospitals.in/apis/uploads/${realsdata.img5 ==='' ? 'p2.png' : realsdata.img5}`,
+      title: realsdata.img5t,
+      description: realsdata.img5d,
+    },
+  ];    
+
+
+
+  const closeClick = () =>{
+    setRealsdata('')
+  }
   return (
     <>
       <div className="d-flex justify-content-center" style={{ padding: "2rem" }}>
@@ -154,6 +200,7 @@ const UnpublishedStory = ({ setforedIt }) => {
               </thead>
               <tbody>
                 {storyData.map((storydata, id) => (
+                  storydata.status=='in-active' ?
                   <tr key={id}>
                     <td>
                       <img
@@ -180,7 +227,7 @@ const UnpublishedStory = ({ setforedIt }) => {
                     </td>
                     <td className="d-flex justify-content-around">
                       <Button variant="outline-primary" size="sm">
-                        <Eye />
+                        <Eye   onClick={() => editClick(storydata.storyid)}  />
                       </Button>
                       <Link
                         to="/edit-story"
@@ -194,6 +241,7 @@ const UnpublishedStory = ({ setforedIt }) => {
                       </Button>
                     </td>
                   </tr>
+                  : ''
                 ))}
               </tbody>
             </Table>
@@ -214,6 +262,60 @@ const UnpublishedStory = ({ setforedIt }) => {
           </div>
         </Card>
       </div>
+
+
+
+
+
+
+{/* reals ui section */}
+{realsdata!=="" && 
+<div className="reels-section">
+<h3 className="close-button" onClick={closeClick}>x</h3>
+  
+    <div id="reelsCarousel" className="carousel slide" data-bs-ride="carousel">
+      <div className="carousel-inner">
+        {reelsData.map((reel, index) => (
+          <div
+            key={reel.id}
+            className={`carousel-item ${index === 0 ? 'active' : ''}`}
+          >
+            <img
+              src={reel.image}
+              className="d-block w-20 m-auto"
+              alt={reel.title}
+              style={{ objectFit: 'cover', height: '400px' }}
+            />
+            <div className="carousel-caption d-none d-md-block">
+              <h5 style={{color:'white',background:'blue',borderRadius:'5px'}}>{reel.title}</h5>
+              <p style={{color:'white',background:'blue',borderRadius:'5px'}}>{reel.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      {/* Controls */}
+      <button
+        className="carousel-control-prev"
+        type="button"
+        data-bs-target="#reelsCarousel"
+        data-bs-slide="prev"
+      >
+        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span className="visually-hidden">Previous</span>
+      </button>
+      <button
+        className="carousel-control-next"
+        type="button"
+        data-bs-target="#reelsCarousel"
+        data-bs-slide="next"
+      >
+        <span className="carousel-control-next-icon" aria-hidden="true"></span>
+        <span className="visually-hidden">Next</span>
+      </button>
+    </div>
+
+
+  </div>}
     </>
   );
 };

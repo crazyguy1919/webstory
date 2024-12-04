@@ -2,7 +2,10 @@ import React from 'react'
 
 const Shared = () => {
   return (
-    <div>Shared</div>
+    <div>
+
+      <h1>Shared</h1>
+    </div>
   )
 }
 

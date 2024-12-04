@@ -13,6 +13,7 @@ function Addstory() {
   });
 
   const [userName,setuserName] = useState()
+  const [categories, setCategories] = useState();
  
 
   useEffect(() => {
@@ -52,7 +53,7 @@ function Addstory() {
 console.log('sssssssssssssss',userName,idGenerate)
     // Check if all story fields are filled
     if (stories.some((story) => !story.file || !story.title || !story.description)) {
-      alert('Please fill all fields for stories!');
+      alert(`Please fill all fields for stories!`);
       return;
     }
 
@@ -92,6 +93,7 @@ console.log('sssssssssssssss',userName,idGenerate)
         
 
       });
+      
       const data = await response.json();
 
       if (data.success) {
@@ -126,7 +128,26 @@ console.log('sssssssssssssss',userName,idGenerate)
 
 
 
+  useEffect(() => {
+    const fetchCategories = async () => {
+        const apiUrl = "https://www.medicoverhospitals.in/apis/category";
 
+        try {
+            const response = await fetch(apiUrl);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const data = await response.json();
+            setCategories(data.data); // Store data in state
+        } catch (error) {
+            console.log(error.message); // Handle error
+        }
+    };
+
+    fetchCategories();
+}, []); // Empty dependency array ensures the effect runs only once
+
+console.log('adfsasdfasf',categories)
 
 
 
@@ -139,7 +160,8 @@ console.log('sssssssssssssss',userName,idGenerate)
         {stories.map((story, index) => (
           <div className="mb-3" key={index}>
             <h4>Story {index + 1}</h4>
-            <div className="row stories-adding">
+            <div className="row stories-adding ">
+
               <div className="col-md-4">
                 <label className="form-label">Add Image</label>
                 <input
@@ -206,9 +228,11 @@ console.log('sssssssssssssss',userName,idGenerate)
                 onChange={handleSeoChange}
               >
                 <option value="">Select Category</option>
-                <option value="health">Health</option>
-                <option value="fitness">Fitness</option>
-                <option value="wellness">Wellness</option>
+                {categories?.map((category) => (
+                  <option key={category.id} className="category-item">
+                    {category.category}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
