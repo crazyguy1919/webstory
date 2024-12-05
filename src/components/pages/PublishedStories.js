@@ -4,26 +4,16 @@ import Table from "react-bootstrap/Table";
 import { Filter, Plus, Eye, Pencil, Trash } from "react-bootstrap-icons";
 import categoryimg1 from "../../assets/images/story1.png";
 import { Link } from "react-router-dom";
-import '../styles/unpublished.css'
+import "../styles/unpublished.css";
 
-const PublishedStory = ({ setforedIt, setstoryZindex}) => {
+const UnpublishedStory = ({ setforedIt, setstoryZindex }) => {
   const [storyData, setStoryData] = useState([]);
   const [error, setError] = useState(null);
-  const [realsdata,setRealsdata] = useState('')
+  const [realsdata, setRealsdata] = useState("");
+  const [currentPage, setCurrentPage] = useState(1); // Pagination state
+  const [searchTerm, setSearchTerm] = useState(""); // Search state
+  const itemsPerPage = 4; // Number of stories per page
 
-
-
-
-
-
-
-
-
-
-
-
-
-  // Fetch stories inside useEffect
   useEffect(() => {
     const fetchStories = async () => {
       try {
@@ -39,9 +29,8 @@ const PublishedStory = ({ setforedIt, setstoryZindex}) => {
         }
 
         const data = await response.json();
-        console.log("Fetched Story Data:ssssssss", data.data.status);
+        console.log("Fetched Story Data:", data);
         setStoryData(data.data);
-
       } catch (err) {
         console.error("Error fetching stories:", err);
         setError(err.message);
@@ -49,17 +38,10 @@ const PublishedStory = ({ setforedIt, setstoryZindex}) => {
     };
 
     fetchStories();
-  }, []); // Fetch runs only once on component mount
+  }, []);
 
-  // Handle status switch toggle
   const statusClick = async (id, storystatus, e) => {
-    alert('Story is Unpublished')
-
     const newStatus = e.target.checked ? "active" : "In-Active";
-    console.log("Story ID:", id);
-    console.log("Previous Status:", storystatus);
-    console.log("New Status:", newStatus);
-
     try {
       const response = await fetch(
         "https://www.medicoverhospitals.in/apis/webstory_update",
@@ -82,7 +64,6 @@ const PublishedStory = ({ setforedIt, setstoryZindex}) => {
       const data = await response.json();
       console.log("Response received:", data);
 
-      // Update local state to reflect status change
       setStoryData((prevData) =>
         prevData.map((story) =>
           story.storyid === id ? { ...story, status: newStatus } : story
@@ -94,7 +75,6 @@ const PublishedStory = ({ setforedIt, setstoryZindex}) => {
   };
 
   const editClick = async (id) => {
-   
     setforedIt(id);
     try {
       const response = await fetch(
@@ -110,66 +90,49 @@ const PublishedStory = ({ setforedIt, setstoryZindex}) => {
 
       const data = await response.json();
       console.log("Fetched story details:", data);
-      setRealsdata(data.data)
-      return data;
+      setRealsdata(data.data);
     } catch (error) {
       console.error("Error fetching story details:", error);
-      throw error;
     }
-
   };
 
-console.log('qqqqqqqqqqqqqqqq',realsdata)
+  const closeClick = () => {
+    setRealsdata("");
+  };
 
+  useEffect(() => {
+    setstoryZindex(realsdata !== "");
+  }, [realsdata, setstoryZindex]);
 
-  const reelsData = [
-    {
-    
-      image: `https://www.medicoverhospitals.in/apis/uploads/${realsdata.img1 ==='' ? 'p1.png' : realsdata.img1}` ,
-      title: realsdata.img1t,
-      description: realsdata.img1d,
-    },
-    {
-    
-      image: `https://www.medicoverhospitals.in/apis/uploads/${realsdata.img2 ==='' ? 'p2.png' : realsdata.img2}`,
-      title: realsdata.img2t,
-      description: realsdata.img2d,
-    },
-    {
-     
-      image: `https://www.medicoverhospitals.in/apis/uploads/${realsdata.img3 ==='' ? 'p4.png' : realsdata.img3}`,
-      title: realsdata.img3t,
-      description: realsdata.img3d,
-    },
-    {
-   
-      image: `https://www.medicoverhospitals.in/apis/uploads/${realsdata.img4 ==='' ? 'p2.png' : realsdata.img4}`,
-      title: realsdata.img4t,
-      description: realsdata.img4d,
-    },
-    {
-    
-      image: `https://www.medicoverhospitals.in/apis/uploads/${realsdata.img5 ==='' ? 'p2.png' : realsdata.img5}`,
-      title: realsdata.img5t,
-      description: realsdata.img5d,
-    },
-  ];    
+  const totalPages = Math.ceil(
+    storyData
+      .filter(
+        (story) =>
+          story.status === "active" &&
+          story.title.toLowerCase().includes(searchTerm.toLowerCase()) // Include search filter
+      )
+      .length / itemsPerPage
+  );
 
+  const paginatedStories = storyData
+    .filter(
+      (story) =>
+        story.status === "active" &&
+        story.title.toLowerCase().includes(searchTerm.toLowerCase()) // Include search filter
+    )
+    .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prev) => prev + 1);
+    }
+  };
 
-  const closeClick = () =>{
-    setRealsdata('')
-    
-  }
-
-  if(realsdata===''){
-    setstoryZindex(false);
-  
-  }
-  else{
-    setstoryZindex(true);
-  
-  }
+  const handlePrev = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prev) => prev - 1);
+    }
+  };
 
   return (
     <>
@@ -205,33 +168,31 @@ console.log('qqqqqqqqqqqqqqqq',realsdata)
                 placeholder="Search"
                 style={{ width: "130px" }}
                 className="me-3"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)} // Update search term
               />
             </div>
           </div>
+
           <hr />
 
           <div className="table-responsive">
             <Table bordered className="mx-auto">
-              
               <thead>
                 <tr>
-                  <th style={{ backgroundColor: "#f8f9fa" }}>Image</th>
-                  <th style={{ backgroundColor: "#f8f9fa" }}>Story Name</th>
-                  <th style={{ backgroundColor: "#f8f9fa" }}>Status</th>
-                  <th style={{ backgroundColor: "#f8f9fa" }}>
-                    Active / Inactive
-                  </th>
-                  <th style={{ backgroundColor: "#f8f9fa" }}>Action</th>
+                  <th>Image</th>
+                  <th>Story Name</th>
+                  <th>Status</th>
+                  <th>Active / Inactive</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                {storyData.map((storydata, id) => (
-              storydata.status=='active' ?
-
+                {paginatedStories.map((storydata, id) => (
                   <tr key={id}>
                     <td>
                       <img
-                        src={categoryimg1} // Replace with story.image if the API provides image URLs
+                        src={categoryimg1}
                         alt="Story"
                         style={{
                           width: "50px",
@@ -245,16 +206,19 @@ console.log('qqqqqqqqqqqqqqqq',realsdata)
                     <td>
                       <Form.Check
                         type="switch"
-                        checked={storydata.status === "active"} 
+                        checked={storydata.status === "active"}
                         onChange={(e) =>
                           statusClick(storydata.storyid, storydata.status, e)
                         }
-                        className="text-center"
                       />
                     </td>
                     <td className="d-flex justify-content-around">
-                      <Button variant="outline-primary" size="sm">
-                        <Eye   onClick={() => editClick(storydata.storyid)}  />
+                      <Button
+                        variant="outline-primary"
+                        size="sm"
+                        onClick={() => editClick(storydata.storyid)}
+                      >
+                        <Eye />
                       </Button>
                       <Link
                         to="/edit-story"
@@ -268,35 +232,37 @@ console.log('qqqqqqqqqqqqqqqq',realsdata)
                       </Button>
                     </td>
                   </tr>
-                  : ''
                 ))}
               </tbody>
             </Table>
           </div>
+
           <div className="d-flex justify-content-between paginations align-items-center py-3 px-4">
-            <span>Showing 1-5 of 20 </span>
-            <div
-              className="pagination-buttons d-flex"
-              style={{ gap: "5px" }}
-            >
-              <Button variant="outline-primary" size="sm">
+            <span>
+              Showing {currentPage} of {totalPages}
+            </span>
+            <div className="pagination-buttons d-flex" style={{ gap: "5px" }}>
+              <Button
+                variant="outline-primary"
+                size="sm"
+                onClick={handlePrev}
+                disabled={currentPage === 1}
+              >
                 {"<"}
               </Button>
-              <Button variant="outline-primary" size="sm">
+              <Button
+                variant="outline-primary"
+                size="sm"
+                onClick={handleNext}
+                disabled={currentPage === totalPages}
+              >
                 {">"}
               </Button>
             </div>
           </div>
         </Card>
       </div>
-
-
-
-
-
-
-{/* reals ui section */}
-{realsdata!=="" && 
+      {realsdata!=="" && 
   
   <amp-story
             standalone
@@ -404,4 +370,4 @@ console.log('qqqqqqqqqqqqqqqq',realsdata)
   );
 };
 
-export default PublishedStory;
+export default UnpublishedStory;
