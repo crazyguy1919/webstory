@@ -6,10 +6,11 @@ import categoryimg1 from "../../assets/images/story1.png";
 import { Link } from "react-router-dom";
 import '../styles/unpublished.css'
 
-const UnpublishedStory = ({ setforedIt}) => {
+const UnpublishedStory = ({ setforedIt,setstoryZindex}) => {
   const [storyData, setStoryData] = useState([]);
   const [error, setError] = useState(null);
   const [realsdata,setRealsdata] = useState('')
+  
 
   // Fetch stories inside useEffect
   useEffect(() => {
@@ -146,6 +147,16 @@ console.log('qqqqqqqqqqqqqqqq',realsdata)
   const closeClick = () =>{
     setRealsdata('')
   }
+
+
+  if(realsdata===''){
+    setstoryZindex(false);
+  
+  }
+  else{
+    setstoryZindex(true);
+  
+  }
   return (
     <>
       <div className="d-flex justify-content-center" style={{ padding: "2rem" }}>
@@ -270,52 +281,108 @@ console.log('qqqqqqqqqqqqqqqq',realsdata)
 
 {/* reals ui section */}
 {realsdata!=="" && 
-<div className="reels-section">
-<h3 className="close-button" onClick={closeClick}>x</h3>
-  
-    <div id="reelsCarousel" className="carousel slide" data-bs-ride="carousel">
-      <div className="carousel-inner">
-        {reelsData.map((reel, index) => (
-          <div
-            key={reel.id}
-            className={`carousel-item ${index === 0 ? 'active' : ''}`}
-          >
-            <img
-              src={reel.image}
-              className="d-block w-20 m-auto"
-              alt={reel.title}
-              style={{ objectFit: 'cover', height: '400px' }}
-            />
-            <div className="carousel-caption d-none d-md-block">
-              <h5 style={{color:'white',background:'blue',borderRadius:'5px'}}>{reel.title}</h5>
-              <p style={{color:'white',background:'blue',borderRadius:'5px'}}>{reel.description}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-      {/* Controls */}
-      <button
-        className="carousel-control-prev"
-        type="button"
-        data-bs-target="#reelsCarousel"
-        data-bs-slide="prev"
-      >
-        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span className="visually-hidden">Previous</span>
-      </button>
-      <button
-        className="carousel-control-next"
-        type="button"
-        data-bs-target="#reelsCarousel"
-        data-bs-slide="next"
-      >
-        <span className="carousel-control-next-icon" aria-hidden="true"></span>
-        <span className="visually-hidden">Next</span>
-      </button>
-    </div>
+  <amp-story
+            standalone
+            publisher="Your Website"
+            publisher-logo-src="https://example.com/logo.png"
+            poster-portrait-src="https://example.com/poster.jpg"
+        ><h3 className="close-button" onClick={closeClick}>x</h3>
+            <amp-story-page id="tip-1:-drink-water-1" auto-advance-after="5s">
+                <amp-story-grid-layer template="fill">
+                    <amp-img
+                        src={`https://www.medicoverhospitals.in/apis/uploads/${realsdata.img1}`}
+                        width="720"
+                        height="1280"
+                        layout="responsive"
+                        alt="Drink Water"
+                    />
+                </amp-story-grid-layer>
+                <amp-story-grid-layer template="vertical">
+                <div className='content-section'>
+                    <h1 className="story-title">{realsdata.img1t}</h1>
+                    <p>{realsdata.img1d}</p>
+                    </div>
 
+                </amp-story-grid-layer>
+            </amp-story-page>
 
-  </div>}
+            <amp-story-page id="tip-2:-exercise-regularly-2" auto-advance-after="5s">
+                <amp-story-grid-layer template="fill">
+                    <amp-img
+                        src={`https://www.medicoverhospitals.in/apis/uploads/${realsdata.img2}`}
+                        width="720"
+                        height="1280"
+                        layout="responsive"
+                        alt="Exercise Regularly"
+                    />
+                </amp-story-grid-layer>
+                <amp-story-grid-layer template="vertical">
+                <div className='content-section'>
+                    <h1 className="story-title">{realsdata.img2t}</h1>
+                    <p>{realsdata.img2d}</p>
+                </div>
+                </amp-story-grid-layer>
+            </amp-story-page>
+
+            <amp-story-page id="tip-3:-sleep-well-3" auto-advance-after="5s">
+                <amp-story-grid-layer template="fill">
+                    <amp-img
+                        src={`https://www.medicoverhospitals.in/apis/uploads/${realsdata.img3}`}
+                        width="720"
+                        height="1280"
+                        layout="responsive"
+                        alt="Sleep Well"
+                    />
+                </amp-story-grid-layer>
+                <amp-story-grid-layer template="vertical"  style={{color:'white'}} className="content-bottom">
+                    
+                <div className='content-section'>
+                  <h1 className="story-title">{realsdata.img3t}</h1>
+                    <p>{realsdata.img3d}</p>
+                    </div>
+
+                </amp-story-grid-layer>
+            </amp-story-page>
+
+            <amp-story-page id="tip-4:-sleep-well-4" auto-advance-after="5s">
+                <amp-story-grid-layer template="fill">
+                    <amp-img
+                        src={`https://www.medicoverhospitals.in/apis/uploads/${realsdata.img4}`}
+                        width="720"
+                        height="1280"
+                        layout="responsive"
+                        alt="Sleep Well"
+                    />
+                </amp-story-grid-layer>
+                <amp-story-grid-layer template="vertical"  style={{color:'white'}} className="content-bottom">
+                  <div className='content-section'>
+                    <h1 className="story-title">{realsdata.img3t}</h1>
+                    <p>{realsdata.img3d}</p>
+                  </div>
+                </amp-story-grid-layer>
+            </amp-story-page>
+
+            <amp-story-page id="tip-5:-sleep-well-5" auto-advance-after="5s">
+                <amp-story-grid-layer template="fill">
+                    <amp-img
+                        src={`https://www.medicoverhospitals.in/apis/uploads/${realsdata.img5}`}
+                        width="720"
+                        height="1280"
+                        layout="responsive"
+                        alt="Sleep Well"
+                    />
+                </amp-story-grid-layer>
+                <amp-story-grid-layer template="vertical"  style={{color:'white'}} className="content-bottom">
+                <div className='content-section'>
+                    <h1 className="story-title">{realsdata.img3t}</h1>
+                    <p>{realsdata.img3d}</p>
+                </div>
+                </amp-story-grid-layer>
+            </amp-story-page>
+
+            <amp-story-bookend src="https://example.com/bookend.json" layout="nodisplay"></amp-story-bookend>
+            <amp-story-share-menu></amp-story-share-menu>
+        </amp-story>}
     </>
   );
 };

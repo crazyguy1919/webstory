@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 
 
-const Header = ({ eventSidebarClick, toggleTheme, isLightTheme }) => {
+const Header = ({ eventSidebarClick, toggleTheme, isLightTheme, storyZindex}) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate(); 
 
@@ -25,7 +25,7 @@ const Header = ({ eventSidebarClick, toggleTheme, isLightTheme }) => {
     navigate('/'); // Redirects to login after clearing session
   };
   return (
-    <div className="header-section" style={{background:isLightTheme ? "" :'grey'}}>
+    <div className="header-section" style={{background:isLightTheme ? "" :'grey', zIndex:storyZindex ? 'auto' : '20'}} >
       <div className="d-flex align-items-center justify-content-between">
         <div className="col-auto">
           <div className="d-flex flex-wrap align-items-center gap-4">

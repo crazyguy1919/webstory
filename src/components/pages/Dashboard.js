@@ -2,13 +2,41 @@ import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import '../styles/dashboard.css';
 import Graph from '../pages/graph'
+import { useNavigate } from 'react-router-dom';
 
 
 const StatCard = ({ title, count, icon, bgColor, trendText, trendIcon, trendColor, iconBgColor,indexval}) => {''
+  const navigate = useNavigate(); 
 
   
+  const navigateClick =(indexval)=>{
+    console.log('afdasfasf',indexval)
+  if(indexval===1){
+    navigate('/published'); 
+  }
+  if(indexval===2){
+    navigate('/unpublished')
+  }
+  if(indexval===3){
+    navigate('/categories')
+  }
+  if(indexval===4){
+    navigate('/liked')
+  }
+  if(indexval===5){
+    navigate('/shared')
+  }
+  if(indexval===6){
+    navigate('/views')
+  }
+  if(indexval===7){
+    navigate('/saved')
+  }
+
+  }
+  
   return (
-    <div className="col p-2 m-0">
+    <div className="col p-2 m-0" onClick={()=>navigateClick(indexval)}>
       <div className={`card shadow-none border ${bgColor} h-100`}>
         <div className={`card-body card-body-section${indexval+1} `}>
           <div className="d-flex flex-wrap align-items-center justify-content-between gap-3">
@@ -37,6 +65,10 @@ const Dashboard = () => {
 
 
   const [allStories,setallStories] = useState('')
+  const [categories, setCategories] = useState();
+
+
+
 
 
 
@@ -65,6 +97,28 @@ const Dashboard = () => {
 
     fetchStories();
   }, []); 
+
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+        const apiUrl = "https://www.medicoverhospitals.in/apis/category";
+
+        try {
+            const response = await fetch(apiUrl);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const data = await response.json();
+            setCategories(data.data); // Store data in state
+        } catch (error) {
+            console.log(error.message); // Handle error
+        }
+    };
+
+    fetchCategories();
+}, []); 
+
+
 
 console.log(allStories)
 
@@ -102,7 +156,7 @@ console.log(allStories)
     },
     {
       title: "Categories",
-      count: "24",
+      count: categories?.length,
       icon: "ri-list-ordered-2",
       bgColor: "bg-gradient-start-4",
       trendText: "5",

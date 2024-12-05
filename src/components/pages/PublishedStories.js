@@ -6,10 +6,22 @@ import categoryimg1 from "../../assets/images/story1.png";
 import { Link } from "react-router-dom";
 import '../styles/unpublished.css'
 
-const PublishedStory = ({ setforedIt}) => {
+const PublishedStory = ({ setforedIt, setstoryZindex}) => {
   const [storyData, setStoryData] = useState([]);
   const [error, setError] = useState(null);
   const [realsdata,setRealsdata] = useState('')
+
+
+
+
+
+
+
+
+
+
+
+
 
   // Fetch stories inside useEffect
   useEffect(() => {
@@ -82,7 +94,7 @@ const PublishedStory = ({ setforedIt}) => {
   };
 
   const editClick = async (id) => {
-
+   
     setforedIt(id);
     try {
       const response = await fetch(
@@ -147,7 +159,18 @@ console.log('qqqqqqqqqqqqqqqq',realsdata)
 
   const closeClick = () =>{
     setRealsdata('')
+    
   }
+
+  if(realsdata===''){
+    setstoryZindex(false);
+  
+  }
+  else{
+    setstoryZindex(true);
+  
+  }
+
   return (
     <>
       <div className="d-flex justify-content-center" style={{ padding: "2rem" }}>
@@ -274,6 +297,7 @@ console.log('qqqqqqqqqqqqqqqq',realsdata)
 
 {/* reals ui section */}
 {realsdata!=="" && 
+  
   <amp-story
             standalone
             publisher="Your Website"
@@ -283,7 +307,7 @@ console.log('qqqqqqqqqqqqqqqq',realsdata)
             <amp-story-page id="tip-1:-drink-water-1" auto-advance-after="5s">
                 <amp-story-grid-layer template="fill">
                     <amp-img
-                        src="https://www.medicoverhospitals.in/webstory/images/img2.webp"
+                        src={`https://www.medicoverhospitals.in/apis/uploads/${realsdata.img1}`}
                         width="720"
                         height="1280"
                         layout="responsive"
@@ -291,15 +315,18 @@ console.log('qqqqqqqqqqqqqqqq',realsdata)
                     />
                 </amp-story-grid-layer>
                 <amp-story-grid-layer template="vertical">
-                    <h1 className="story-title">Tip 1: Drink Water</h1>
-                    <p>Stay hydrated to maintain your body's balance and function.</p>
+                <div className='content-section'>
+                    <h1 className="story-title">{realsdata.img1t}</h1>
+                    <p>{realsdata.img1d}</p>
+                    </div>
+
                 </amp-story-grid-layer>
             </amp-story-page>
 
             <amp-story-page id="tip-2:-exercise-regularly-2" auto-advance-after="5s">
                 <amp-story-grid-layer template="fill">
                     <amp-img
-                        src="https://www.medicoverhospitals.in/webstory/images/img3.webp"
+                        src={`https://www.medicoverhospitals.in/apis/uploads/${realsdata.img2}`}
                         width="720"
                         height="1280"
                         layout="responsive"
@@ -307,24 +334,66 @@ console.log('qqqqqqqqqqqqqqqq',realsdata)
                     />
                 </amp-story-grid-layer>
                 <amp-story-grid-layer template="vertical">
-                    <h1 className="story-title">Tip 2: Exercise Regularly</h1>
-                    <p>Exercise is crucial for maintaining physical and mental health.</p>
+                <div className='content-section'>
+                    <h1 className="story-title">{realsdata.img2t}</h1>
+                    <p>{realsdata.img2d}</p>
+                </div>
                 </amp-story-grid-layer>
             </amp-story-page>
 
             <amp-story-page id="tip-3:-sleep-well-3" auto-advance-after="5s">
                 <amp-story-grid-layer template="fill">
                     <amp-img
-                        src="https://www.medicoverhospitals.in/webstory/images/img1.jpg"
+                        src={`https://www.medicoverhospitals.in/apis/uploads/${realsdata.img3}`}
                         width="720"
                         height="1280"
                         layout="responsive"
                         alt="Sleep Well"
                     />
                 </amp-story-grid-layer>
-                <amp-story-grid-layer template="vertical" style={{color:'white'}}>
-                    <h1 className="story-title">Tip 3: Sleep Well</h1>
-                    <p>Quality sleep improves brain performance, mood, and health.</p>
+                <amp-story-grid-layer template="vertical"  style={{color:'white'}} className="content-bottom">
+                    
+                <div className='content-section'>
+                  <h1 className="story-title">{realsdata.img3t}</h1>
+                    <p>{realsdata.img3d}</p>
+                    </div>
+
+                </amp-story-grid-layer>
+            </amp-story-page>
+
+            <amp-story-page id="tip-4:-sleep-well-4" auto-advance-after="5s">
+                <amp-story-grid-layer template="fill">
+                    <amp-img
+                        src={`https://www.medicoverhospitals.in/apis/uploads/${realsdata.img4}`}
+                        width="720"
+                        height="1280"
+                        layout="responsive"
+                        alt="Sleep Well"
+                    />
+                </amp-story-grid-layer>
+                <amp-story-grid-layer template="vertical"  style={{color:'white'}} className="content-bottom">
+                  <div className='content-section'>
+                    <h1 className="story-title">{realsdata.img3t}</h1>
+                    <p>{realsdata.img3d}</p>
+                  </div>
+                </amp-story-grid-layer>
+            </amp-story-page>
+
+            <amp-story-page id="tip-5:-sleep-well-5" auto-advance-after="5s">
+                <amp-story-grid-layer template="fill">
+                    <amp-img
+                        src={`https://www.medicoverhospitals.in/apis/uploads/${realsdata.img5}`}
+                        width="720"
+                        height="1280"
+                        layout="responsive"
+                        alt="Sleep Well"
+                    />
+                </amp-story-grid-layer>
+                <amp-story-grid-layer template="vertical"  style={{color:'white'}} className="content-bottom">
+                <div className='content-section'>
+                    <h1 className="story-title">{realsdata.img3t}</h1>
+                    <p>{realsdata.img3d}</p>
+                </div>
                 </amp-story-grid-layer>
             </amp-story-page>
 
