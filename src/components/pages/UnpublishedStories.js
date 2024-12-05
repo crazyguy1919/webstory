@@ -41,7 +41,7 @@ const UnpublishedStory = ({ setforedIt}) => {
   // Handle status switch toggle
   const statusClick = async (id, storystatus, e) => {
     alert('Story is Published')
-    const newStatus = e.target.checked ? "active" : "in-active";
+    const newStatus = e.target.checked ? "active" : "In-Active";
     console.log("Story ID:", id);
     console.log("Previous Status:", storystatus);
     console.log("New Status:", newStatus);
@@ -200,7 +200,7 @@ console.log('qqqqqqqqqqqqqqqq',realsdata)
               </thead>
               <tbody>
                 {storyData.map((storydata, id) => (
-                  storydata.status=='in-active' ?
+                  storydata.status=="In-Active" ?
                   <tr key={id}>
                     <td>
                       <img

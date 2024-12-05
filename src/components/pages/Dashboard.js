@@ -80,7 +80,9 @@ console.log(allStories)
     },
     {
       title: "Published",
-      count: "28,293",
+      count: Array.isArray(allStories) 
+      ? allStories.filter(story => story?.status === "active").length 
+      : 0,
       icon: "ri-book-2-line",
       bgColor: "bg-gradient-start-2",
       trendText: "50",
@@ -89,7 +91,9 @@ console.log(allStories)
     },
     {
       title: "UnPublished",
-      count: allStories?.length || 0,
+      count:  Array.isArray(allStories) 
+      ? allStories.filter(story => story?.status === "In-Active").length 
+      : 0,
       icon: "ri-route-line",
       bgColor: "bg-gradient-start-3",
       trendText: "85",

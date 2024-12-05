@@ -13,10 +13,13 @@
     position: fixed;
     right: 60px;
     z-index: 30;
-    top:90px;
+    top:30px;
+    color: white;
 }
 .close-button:hover{
-    color: white;
+    color: rgb(212, 203, 203);
     cursor: pointer;
+    font-size: 45px;
+    transition:0.2s;
 
 }

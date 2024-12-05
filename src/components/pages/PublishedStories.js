@@ -6,7 +6,7 @@ import categoryimg1 from "../../assets/images/story1.png";
 import { Link } from "react-router-dom";
 import '../styles/unpublished.css'
 
-const UnpublishedStory = ({ setforedIt}) => {
+const PublishedStory = ({ setforedIt}) => {
   const [storyData, setStoryData] = useState([]);
   const [error, setError] = useState(null);
   const [realsdata,setRealsdata] = useState('')
@@ -27,8 +27,9 @@ const UnpublishedStory = ({ setforedIt}) => {
         }
 
         const data = await response.json();
-        console.log("Fetched Story Data:", data);
+        console.log("Fetched Story Data:ssssssss", data.data.status);
         setStoryData(data.data);
+
       } catch (err) {
         console.error("Error fetching stories:", err);
         setError(err.message);
@@ -42,7 +43,7 @@ const UnpublishedStory = ({ setforedIt}) => {
   const statusClick = async (id, storystatus, e) => {
     alert('Story is Unpublished')
 
-    const newStatus = e.target.checked ? "active" : "in-active";
+    const newStatus = e.target.checked ? "active" : "In-Active";
     console.log("Story ID:", id);
     console.log("Previous Status:", storystatus);
     console.log("New Status:", newStatus);
@@ -273,54 +274,65 @@ console.log('qqqqqqqqqqqqqqqq',realsdata)
 
 {/* reals ui section */}
 {realsdata!=="" && 
-<div className="reels-section">
-<h3 className="close-button" onClick={closeClick}>x</h3>
-  
-    <div id="reelsCarousel" className="carousel slide" data-bs-ride="carousel">
-      <div className="carousel-inner">
-        {reelsData.map((reel, index) => (
-          <div
-            key={reel.id}
-            className={`carousel-item ${index === 0 ? 'active' : ''}`}
-          >
-            <img
-              src={reel.image}
-              className="d-block w-20 m-auto"
-              alt={reel.title}
-              style={{ objectFit: 'cover', height: '400px' }}
-            />
-            <div className="carousel-caption d-none d-md-block">
-              <h5 style={{color:'black'}}>{reel.title}</h5>
-              <p style={{color:'black'}}>{reel.description}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-      {/* Controls */}
-      <button
-        className="carousel-control-prev"
-        type="button"
-        data-bs-target="#reelsCarousel"
-        data-bs-slide="prev"
-      >
-        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span className="visually-hidden">Previous</span>
-      </button>
-      <button
-        className="carousel-control-next"
-        type="button"
-        data-bs-target="#reelsCarousel"
-        data-bs-slide="next"
-      >
-        <span className="carousel-control-next-icon" aria-hidden="true"></span>
-        <span className="visually-hidden">Next</span>
-      </button>
-    </div>
+  <amp-story
+            standalone
+            publisher="Your Website"
+            publisher-logo-src="https://example.com/logo.png"
+            poster-portrait-src="https://example.com/poster.jpg"
+        ><h3 className="close-button" onClick={closeClick}>x</h3>
+            <amp-story-page id="tip-1:-drink-water-1" auto-advance-after="5s">
+                <amp-story-grid-layer template="fill">
+                    <amp-img
+                        src="https://www.medicoverhospitals.in/webstory/images/img2.webp"
+                        width="720"
+                        height="1280"
+                        layout="responsive"
+                        alt="Drink Water"
+                    />
+                </amp-story-grid-layer>
+                <amp-story-grid-layer template="vertical">
+                    <h1 className="story-title">Tip 1: Drink Water</h1>
+                    <p>Stay hydrated to maintain your body's balance and function.</p>
+                </amp-story-grid-layer>
+            </amp-story-page>
 
+            <amp-story-page id="tip-2:-exercise-regularly-2" auto-advance-after="5s">
+                <amp-story-grid-layer template="fill">
+                    <amp-img
+                        src="https://www.medicoverhospitals.in/webstory/images/img3.webp"
+                        width="720"
+                        height="1280"
+                        layout="responsive"
+                        alt="Exercise Regularly"
+                    />
+                </amp-story-grid-layer>
+                <amp-story-grid-layer template="vertical">
+                    <h1 className="story-title">Tip 2: Exercise Regularly</h1>
+                    <p>Exercise is crucial for maintaining physical and mental health.</p>
+                </amp-story-grid-layer>
+            </amp-story-page>
 
-  </div>}
+            <amp-story-page id="tip-3:-sleep-well-3" auto-advance-after="5s">
+                <amp-story-grid-layer template="fill">
+                    <amp-img
+                        src="https://www.medicoverhospitals.in/webstory/images/img1.jpg"
+                        width="720"
+                        height="1280"
+                        layout="responsive"
+                        alt="Sleep Well"
+                    />
+                </amp-story-grid-layer>
+                <amp-story-grid-layer template="vertical" style={{color:'white'}}>
+                    <h1 className="story-title">Tip 3: Sleep Well</h1>
+                    <p>Quality sleep improves brain performance, mood, and health.</p>
+                </amp-story-grid-layer>
+            </amp-story-page>
+
+            <amp-story-bookend src="https://example.com/bookend.json" layout="nodisplay"></amp-story-bookend>
+            <amp-story-share-menu></amp-story-share-menu>
+        </amp-story>}
     </>
   );
 };
 
-export default UnpublishedStory;
+export default PublishedStory;
