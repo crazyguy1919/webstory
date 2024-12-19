@@ -1,6 +1,8 @@
 .side-links{
     border-radius: 6px;
-    padding: 10px 10px;
+    padding: 10px 0px;
+    margin-left: 10px;
+  
 }
 /* .sidebar-nav-bars a:hover{
   color: blue !important;
@@ -54,7 +56,7 @@
 .sidebar-logo-1{
     position: sticky;
     top: 0px;
-    /* background: white; */
+    background: white;
     z-index: 33;
 
 

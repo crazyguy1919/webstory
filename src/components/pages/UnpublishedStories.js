@@ -166,7 +166,7 @@ const UnpublishedStory = ({ setforedIt, setstoryZindex }) => {
               <Form.Control
                 type="text"
                 placeholder="Search"
-                style={{ width: "130px" }}
+                style={{ width: "190px" }}
                 className="me-3"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)} // Update search term

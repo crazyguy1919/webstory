@@ -1,5 +1,6 @@
 import React, { useState,useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../styles/addstory.css'
 
 function Addstory() {
   // Initial state with one story field
@@ -87,10 +88,6 @@ console.log('sssssssssssssss',userName,idGenerate)
       const response = await fetch('https://www.medicoverhospitals.in/apis/webstorysingle', {
         method: 'POST',
         body: formData,
-          
-
-      
-        
 
       });
       

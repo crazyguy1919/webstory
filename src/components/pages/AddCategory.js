@@ -6,6 +6,7 @@ const AddCategory = () => {
     categoryImage: null,
     categoryName: '',
   });
+
   const [errors, setErrors] = useState({
     categoryImage: '',
     categoryName: '',
@@ -14,45 +15,74 @@ const AddCategory = () => {
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
 
-    if (name === "categoryImage") {
-      setFormData({ ...formData, categoryImage: files[0] });
-      setErrors({ ...errors, categoryImage: files[0] ? '' : 'Please choose a file.' });
+    if (name === 'categoryImage') {
+      const file = files[0];
+      setFormData((prev) => ({ ...prev, categoryImage: file }));
+      setErrors((prev) => ({ ...prev, categoryImage: file ? '' : 'Please choose a file.' }));
     } else {
-      setFormData({ ...formData, [name]: value });
-      setErrors({ ...errors, categoryName: value ? '' : 'Category name is required.' });
+      setFormData((prev) => ({ ...prev, [name]: value }));
+      setErrors((prev) => ({ ...prev, categoryName: value ? '' : 'Category name is required.' }));
     }
   };
 
   const handleReset = () => {
-    setFormData({
-      categoryImage: null,
-      categoryName: '',
-    });
-    setErrors({
-      categoryImage: '',
-      categoryName: '',
-    });
+    setFormData({ categoryImage: null, categoryName: '' });
+    setErrors({ categoryImage: '', categoryName: '' });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    let valid = true;
+  const validateForm = () => {
+    let isValid = true;
     let newErrors = { categoryImage: '', categoryName: '' };
 
     if (!formData.categoryImage) {
       newErrors.categoryImage = 'Please choose a file.';
-      valid = false;
+      isValid = false;
     }
+
     if (!formData.categoryName.trim()) {
       newErrors.categoryName = 'Category name is required.';
-      valid = false;
+      isValid = false;
     }
 
     setErrors(newErrors);
+    return isValid;
+  };
 
-    if (valid) {
-      console.log("Category Image:", formData.categoryImage);
-      console.log("Category Name:", formData.categoryName);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    const formDataObj = new FormData();
+
+
+    formDataObj.append("category", formData.categoryName);
+    console.log(formData.categoryName)
+    try {
+      const response = await fetch('https://www.medicoverhospitals.in/apis/addcategory', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ category: formData.categoryName }), 
+      });
+
+      const data = await response.json();
+      console.log(formData.categoryName,'data',data)
+
+      // for (let pair of formDataObj.entries()) {
+      //   console.log(`${pair[0]}: ${pair[1]}`);
+      // }
+
+
+      if (response.ok) {
+        alert('Category added successfully!');
+        handleReset();
+      } else {
+        alert('Failed to add category.');
+        console.error('Error:', data);
+      }
+    } catch (error) {
+      console.error('Error:', error);
     }
   };
 
@@ -81,7 +111,7 @@ const AddCategory = () => {
                       id="categoryImage"
                       name="categoryImage"
                       onChange={handleInputChange}
-                      className="d-none "
+                      className="d-none"
                       required
                     />
                     {formData.categoryImage && (
@@ -92,6 +122,7 @@ const AddCategory = () => {
                     <div className="invalid-feedback d-block">{errors.categoryImage}</div>
                   )}
                 </div>
+
                 <div className="mb-3">
                   <label className="form-label">Category Name</label>
                   <input
@@ -107,6 +138,7 @@ const AddCategory = () => {
                     <div className="invalid-feedback">{errors.categoryName}</div>
                   )}
                 </div>
+
                 <div className="d-flex gap-2">
                   <button
                     type="button"

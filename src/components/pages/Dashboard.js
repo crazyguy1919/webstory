@@ -36,7 +36,7 @@ const StatCard = ({ title, count, icon, bgColor, trendText, trendIcon, trendColo
   }
   
   return (
-    <div className="col p-2 m-0 pinter" onClick={()=>navigateClick(indexval)}>
+    <div className="col p-2 m-0" onClick={()=>navigateClick(indexval)} style={{cursor:'pointer'}}>
       <div className={`card shadow-none border ${bgColor} h-100`}>
         <div className={`card-body card-body-section${indexval+1} `}>
           <div className="d-flex flex-wrap align-items-center justify-content-between gap-3">
